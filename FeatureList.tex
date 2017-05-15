@@ -1,0 +1,153 @@
+\chapter{Feature List}
+
+
+\section{Fernsteuerung}
+\subsection{Beschreibung}
+%TODO
+Ein Roboter mit EEROS kann über ROS ferngesteuert werden.
+Dazu sollen standard-ROS-Knoten, wie etwa 'joy'-Packet\footnote{http://wiki.ros.org/joy} verwendet werden können.
+%nur als input
+
+\subsection{Teilziele}
+\begin{enumerate}
+\item Steuerungsbefehle mit einem einfachen ROS-Knoten wie der \textit{turtle\_teleop\_key}.
+\item Der Steuerungsbefehl wir über die HAL eingelesen. Die Steuerungsbefehle können als reguläre Inputs im EEROS gelesen werden.
+\item Steuerungsbefehle mit einem generischen Tastatur-Knoten damit eine Steuerung über eine Tastatur möglich ist.
+\item Steuerungsbefehle mit einem XBox-Controller.
+\end{enumerate}
+
+
+\section{Logging (Protokollierung)}
+\subsection{Beschreibung}
+Mit \textit{Logging} sind Ausgaben gemeint, die den aktuellen Status der EEROS-Applikation wiedergeben.
+Sie können auch für Fehlermeldungen und Debug-Informationen verwendet werde.
+
+Das EEROS-Framework hat bereits eine Logger-Funktionalität.
+In der aktuellen EEROS-Version kann der \textit{Loggers}  mit folgenden Zeilen benutzt werden\footnote{http://wiki.eeros.org/tools/logger/start?s[]=log}:
+\lstset{language=C++}
+\begin{lstlisting}
+StreamLogWriter w(std::cout); Logger log(); log.set(w);
+
+log.info() << "Logger Test";
+int a = 298;
+logg.warn() << "a = " << a;
+log.error() << "first line" << endl << "second line"; 
+\end{lstlisting}
+
+In EEROS erfolgt die Ausgabe des \textit{Loggers} über die Konsole (\textit{StreamLogWriter}) oder in eine Datei (\textit{SysLogWriter}).
+Wenn die Ausgabe auf einem Anderen PC erfolgen soll, z.B. bei einem ferngesteuertem Roboter, kann eine SSH-Verbindung hergestellt werden.
+
+EEROS bietet auch eine Möglichkeit um Informationen im \textit{Control System} zu loggen\footnote{http://wiki.eeros.org/tools/logger\_cs/start}.
+Dabei ist das Problem, dass das \textit{Control System} normalerweise sehr oft (1000 Mal in der Sekunde) ausgeführt wird und den Bildschirm mit Informationen überfluten würde.
+Es existiert aber bereits eine Lösung mit \textit{Periodic Functions}, damit die Daten mit einer viel kleineren Frequenz ausgegeben werden.
+Die Lösung mit den \textit{Periodic Functions} ist aber nicht intuitiv und wird oft, besonders in der Debugging-Phase nicht genutzt und umgangen.
+
+ROS hat mit der \textit{ROS console}\footnote{http://wiki.ros.org/rosconsole} eine ausgereifte Logging-Funktion integriert.
+Mit der \textit{Throttle-Funktion} (\texttt{ROS\_DEBUG\_THROTTLE(period, ...)} bietet ROS eine sehr bequeme Möglichkeit, um eine Information nur einmal in einem bestimmten Zeitraum auszugeben.
+Weitere Funktionen sind noch:
+
+\begin{itemize}
+\item ROS\_DEBUG\_COND(cond, ...)
+\item ROS\_DEBUG\_ONCE(...)
+\item ROS\_DEBUG\_DELAYED\_THROTTLE(period, ...)
+\item ROS\_DEBUG\_FILTER(filter, ...)
+\end{itemize}
+
+Wie auch EEROS hat ROS verschiedene \textit{verbosity levels} um Debug-Informationen von normalen Informationen, Warnungen und Fehlern zu unterscheiden.
+
+Ein weiterer Vorteil bei ROS ist, dass die Ausgaben irgendwo im ROS-Netzwerk, also auch auf einem anderen PC, gelesen und in eine Datei gespeichert werden können.
+Zusätzlich existieren schon ausgereifte Programme, welche die Ausgaben live filtern, farblich hervorheben und ausgeben können. 
+%TODO BILD
+
+\subsection{Teilziele}
+Dieses Feature hat einen sehr grossen Funktionsumfang und wird deshalb in mehrere Teilziele unterteilt.
+\begin{enumerate}
+\item Bestehender EEROS-Logger umlenken in den ROS-Logger
+\item Bestehender EEROS-Logger umlenken in den ROS-Logger und die \textit{verbosity levels} beibehalten
+\item Bestehender EEROS-Logger erweitern um die \textit{Throttle}-Funktionalität
+\item Bestehender EEROS-Logger erweitern um die \textit{Conditional}-Funktionalität
+\item Bestehender EEROS-Logger erweitern um die \textit{Once}-Funktionalität
+\item Bestehender EEROS-Logger erweitern um die \textit{Filter}-Funktionalität
+\item Bestehender EEROS-Logger erweitern um die \textit{Delayed-Throttle}-Funktionalität
+\end{enumerate}
+
+
+\section{Anzeige von Prozessvariablen}
+\subsection{Beschreibung}
+Prozessvariablen sind, im Gegensatz zu den Log-Ausgaben, einzelne Zahlen oder Datenpunkte wie beispielsweise die Position eines Encoders.
+Die Variablen können in einem GUI angezeigt werden.
+Im einfachsten Fall zeigt das GUI die Variablen in einer einfachen Konsole an.
+In vielen Fällen ist es aber auch von Vorteil, wenn eine oder mehrere Variablen in einem Graphen visualisiert werden können.
+
+\subsection{Zu erwartende Probleme}
+Bei Prozessvariablen gilt es zu beachten, dass sehr schnell eine grosse Menge von Daten anfallen können.
+Dabei ist nicht nur die Bandbreite ein Problem, sondern auch die Latenz.
+Im konkreten Fall bedeutet dies, dass in einem \textit{Control System} bei jedem Durchlauf innerhalb von sehr kurzer Zeit (typischerweise \unit[1]{s}) neue Daten produziert werden.
+Wenn das ROS-Netzwerk nicht innerhalb von einer Millisekunde die Daten wegschicken kann, kann es sein, dass Daten verloren gehen.
+
+Eine Lösung für die zu geringe Latenz des ROS-Netzwerk dazu wäre ein Buffer, der den hochfrequenten Datenstrom abfängt und von in längeren Zeitabständen (etwa \unit[0.1]{s} bis \unit[1]{s}) Datenpakete mit den Daten schickt.
+
+Wenn aber die Bandbreite zu hoch ist, das heist, wenn mehr Daten durch das ROS-Netzwerk geschickt werden, als das Netzwerk übertragen kann, dann reicht ein einfacher Buffer nicht mehr aus.
+Folgende Techniken könnten das Problem lösen:
+\begin{itemize}
+\item \textbf{Throttle:} Funktioniert wie der Logger mit \textit{Throttle}-Funktionalität. Die meisten Daten werden verworfen und nur jeder x-te Wert wird geschickt
+\item \textbf{Zeitbegrenzter Buffer:} Ein Buffer speichert über eine begrenzte Zeit die Daten und schickt sie dann mit reduzierter Bandbreite über das Netzwerk..
+\item \textbf{Filter:} Es werden nur Daten gesendet, die eine bestimmte Bedingung erfüllen. Z.B. wenn deren Wert grösser als 10 ist.
+\item \textbf{Statistik:} Für eine gewisse Anzahl von Datenpunkte werden statistische Werte wie z.B. Mittelwert, Minimum und Maximum berechnet. Dem Netzwerk werden nur die berechneten Werte gesendet.
+\end{itemize}
+
+\subsection{Teilziele}
+\begin{enumerate}
+\item Anzeige von Daten in einer Konsole (über das ROS-Netzwerk)
+\item Anzeige von Daten in einem Diagramm (bestehende ROS-Tools)
+\item Anzeige in Gazebo
+\item Throttle
+\item Zeitbegrenzter Buffer
+\item Filter
+\item Statistik
+\end{enumerate}
+
+
+\section{Variablen in EEROS per Fernsteuerung manipulieren}
+%TODO besserer Namen/Beschreibung
+\subsection{Beschreibung}
+Ein EEROS-Roboter hat diverse Konstanten, wie etwa Umrechnungsfaktoren und Offsets, gespeichert, die das Verhalten des Roboters beeinflussen.
+Für die Fehlersuche ist es manchmal von Vorteil, wenn Ausgänge und Konstanten manuell gesetzt werden können.
+
+\subsection{Teilziele}
+\begin{enumerate}
+\item Ausgänge ferngesteuert setzen.
+\item Konstanten ferngesteuert setzen.
+\end{enumerate}
+
+
+\section{Bewertung der verschiedenen Features und Teilziele}
+%TODO beschreiben punktesystem
+\begin{tabular}
+%  { l								| l											| l			| l			| l }
+  { l								| l			 								l			 l			 l }
+  \textbf{Feature}					& \textbf{Teilziel}	& \textbf{Nutzen}	& \textbf{Aufwand}	& \textbf{Punkte}	\\ \hline
+  
+% Feature							  Teilziel   								Nutzen      Aufwand     Punkte
+  Fernsteuerung						& 1. Einfacher ROS-Knoten					& 6			& 3			& 2.0		\\
+  									& 2. HAL									& 8			& 7			& 1.1		\\
+  									& 3. Generischer Tastaturknoten				& 7			& 5			& 1.4		\\ 
+  									& 4. XBox-Controller						& 7			& 5			& 1.4		\\ \hline
+  Logging 							& 1. EEROS-Logger umlenken					& 8			& 4			& 2.0		\\
+  									& 2. \textit{Verbosity levels} beibehalten	& 7			& 5			& 1.4		\\
+  									& 3. \textit{Throttle}-Funktionalität		& 8			& 6			& 1.3		\\
+  									& 4. \textit{Conditional}-Funktionalität 	& 4			& 3			& 1.3		\\
+  									& 5. \textit{Once}-Funktionalität			& 4			& 3			& 1.3		\\
+  									& 6. \textit{Filter}-Funktionalität			& 3			& 3			& 1.0		\\
+  									& 7. \textit{Delayed-Throttle}-Funkt.		& 3			& 3			& 1.0		\\ \hline
+  Anzeige von Prozessvar.			& 1. Konsolenausgabe 						& 8			& 5			& 1.6		\\
+  									& 2. Diagramm								& 8			& 6			& 1.3		\\
+  									& 3. Gazebo									& 4			& 9			& 0.4		\\
+  									& 4. Throttle-Funktion						& 8			& 6			& 1.3		\\
+  									& 5. Zeitbegrenzter Buffer					& 6			& 6			& 1.0		\\
+  									& 6. Filter									& 6			& 6			& 1.0		\\
+  									& 7. Statistik								& 7			& 7			& 1.0		\\ \hline
+  Manipulieren von Prozessvar.		& 1. Ausgänge setzen						& 8			& 4			& 2.0		\\
+  									& 2. Konstanten setzen						& 6			& 4			& 1.5		\\ \hline
+\end{tabular}
+
