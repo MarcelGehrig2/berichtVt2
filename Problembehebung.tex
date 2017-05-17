@@ -1,0 +1,55 @@
+\chapter{Problembehebung}
+
+
+\section{ROS wird von CMAKE nicht gefunden}
+\subsection{Problembeschreibung}
+Beim kompilieren von EEROS wird ROS nicht gefunden.
+Wenn CMAKE ausgeführt wird, werden die Packages von ROS nicht gefunden.
+
+\subsection{Mögliche Ursachen}
+\begin{enumerate}
+\item ROS wurde auf der Maschine nicht installiert.
+\item Der \textit{setup.bash} Skript von ROS wurde nicht ausgeführt, bevor CMAKE aufgerufen wird.
+In diesem Fall stehen CMAKE die benötigten Umgebungsvariablen nicht zur Verfügung.
+Dies ist auch der Fall, wenn CMAKE in \textit{Qt Creator} ausgeführt wird.
+\end{enumerate}
+
+\subsection{Lösung}
+\begin{enumerate}
+\item ROS installieren.
+\item Sicherstellen, dass der \textit{setup.bash} Skript von ROS ausgeführt wird, bevor CMAKE aufgerufen wird.
+Typischerweise wird dieser Skript aus dem \textit{~/.bashrc} Skript automatisch ausgeführt, wenn eine Konsole geöffnet wird.
+\item Wird CMAKE aus einer Entwicklungsumgebung, wie z.B. \textit{Qt Creator}, aus ausgeführt, dann muss die Entwicklungsumgebung aus dem Terminal und nicht per Icon gestartet werden.
+Wird die Software per Icon gestartet, dann wird vorher der \textit{~/.bashrc} Skript nicht ausgeführt und die benötigten ROS-Umgebungsvariablen stehen CMAKE nicht zur Verfügung.
+Wird \textit{QT Creator} aus dem Terminal raus gestartet, dann wird der \textit{~/.bashrc} Skript wie gewünscht ausgeführt.
+Mit dem folgenden Befehl kann der \textit{QT Creator} aus dem Terminal gestartet werden (der genaue Pfad hängt von der Version ab):\\
+\textit{\# ~/Qt5.7.0/Tools/QtCreator/bin/qtcreator \&}
+\end{enumerate}
+
+
+\section{Probleme mit ROS wenn sudo verwendet wird}
+\subsection{Problembeschreibung}
+Wenn eine Applikation (EEROS-Applikation oder unabhängige Applikation) gestartet wird, welche ROS verwendet, erscheint folgende Fehlermeldung:
+
+
+\texttt{
+[FATAL] [1494864699.611423845]: ROS\_MASTER\_URI is not defined in the environment. Either type the following or (preferrably) add this to your ~/.bashrc file in order set up your local machine as a ROS master:
+}
+
+\texttt{
+export ROS\_MASTER\_URI=http://localhost:11311
+}
+
+\texttt{
+then, type 'roscore' in another shell to actually launch the master program.
+}
+
+\subsection{Ursache}
+Der \textit{sudo}-Befehl übernimmt nicht die Umgebungsvariablen vom Prozess aus dem er gestartet wird.
+Deshalb stehen die Umgebungsvariablen, welche vom \textit{setup.sh}-Skript definiert werden, nicht dem ROS-Programm zur Verfügung.
+
+\subsection{Lösung}
+Verwende: \\
+\textit{\# sudo -E ./applikation} \\
+anstelle von: \\
+\textit{\# sudo ./applikation}.

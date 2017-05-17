@@ -1,0 +1,110 @@
+\chapter{Testing}
+\section{Einleitung}
+%TODO beschreibung
+%TODO repos benamsen
+
+\section{Tests für ''Essential Features''}
+\subsection{Unabhängiger ROS-Knoten}
+\subsubsection{Zu erfüllende Testbedingungen}
+Eine C++-Applikation schreiben, die folgende Eigenschaften erfüllt:
+\begin{enumerate}
+\item Applikation meldet sich als ROS-Knoten an.
+\item Applikation schickt eine \textit{ROS Log Statement}.
+\end{enumerate}
+
+\subsubsection{Testdurchführung}
+\textbf{Repositories:} \\
+\begin{tabular}
+  { l						| l			 							l								 l								}
+% Name						Repo   									Branch	     				Tag
+  testAppVT2\_t1.0			& \textit{Repository}: eeros-framework	& \textit{Branch}: masster		& \textit{Tag}: Test001.0 		\\
+\end{tabular}
+
+\textbf{Ablauf: }
+\begin{enumerate}
+\item Den ROS Core mit \textit{\# roscore} starten.
+\item \textit{\# rqt\_console} starten.
+\item Mit dem Befehl \textit{\# rosnode list} 
+\item Testapplikation ''\textit{testAppVT2\_t1.0}'' starten.
+\item Solange die Applikation läuft, muss bei \textit{\# rosnode list} ein neuer Node aufgelistet sein. \\
+\textbf{Ergebnis:} \checkmark
+\item Bei der \textit{rqt\_console} ist mindestens eine neue \textit{Log-Message} von der Testapplikation erschienen. \\
+\textbf{Ergebnis:} \checkmark
+\item Nachdem die Testapplikation beendet wurde, ist der Knoten der Testapplikation unter \textit{\# rosnode list} wieder verschwunden. \\
+\textbf{Ergebnis:} \checkmark
+\end{enumerate}
+
+
+\subsection{CMAKE}
+\subsubsection{Zu erfüllende Testbedingungen}
+Eine Klasse in EEROS erstellen, die ROS verwendet und den EEROS Quellcode umschreiben, damit folgende Bedingungen erfüllt werden:
+\begin{itemize}
+\item Wenn ROS installiert ist, wird die neu geschriebene Klasse kompiliert und gegen die entsprechenden ROS-Bibliotheken gelinkt.
+\item Wenn ROS nicht installiert ist, dann wird die neu geschriebene Klasse nicht kompiliert und die restlichen Teile von EEROS kompilieren fehlerfrei.
+\end{itemize}
+
+\subsubsection{Testdurchführung}
+\textbf{Repositories:} \\
+\begin{tabular}
+  { l						| l			 							l								 l								}
+
+% Name						Repo   									Branch Aufwand     				Tag
+  EEROS\_t2.0				& \textit{Repository}: eeros-framework	& \textit{Branch}: ROSVt2		& \textit{Tag}: Test002.0 		\\
+  EEROS-Applikation\_t2.0	& \textit{Repository}: testAppVt2		& \textit{Branch}: master		& \textit{Tag}: Test002.0 		\\
+\end{tabular}
+
+\textbf{Ablauf: } 
+\begin{enumerate}
+\item Den \textit{build} Ordner und den \textit{install} Ordner von ''\textit{EEROS\_t2.0} löschen.
+\item \textit{CMAKE} ausführen, \textbf{ohne} dass vorher das \textit{Setup-Skript} von ROS ausgeführt wurde.
+\item Wenn \textit{CMAKE} ausgeführt wird, erscheint unter anderem folgende Ausgabe: \\
+\textit{-- looking for package 'ROS' \\
+-- -> ROS NOT found} \\
+\textbf{Ergebnis:} \checkmark
+\item EEROS baut fehlerfrei und wird richtig installiert. \\
+\textbf{Ergebnis:} \checkmark
+\item Die EEROS-Testapplikation ''\textit{EEROS-Applikation\_t2.0}'' lässt sich \textbf{nicht} bauen, da ein \textit{Header file} von ROS fehlt. \\
+\textbf{Ergebnis:} \checkmark
+\item Den \textit{build} Ordner und den \textit{install} Ordner von ''\textit{EEROS\_t2.0} löschen.
+\item \textit{CMAKE} ausführen, \textbf{nachdem} das \textit{Setup-Skript} von ROS ausgeführt wurde.
+\item Wenn \textit{CMAKE} ausgeführt wird, erscheint unter anderem folgende Ausgabe: \\
+\textit{-- looking for package 'ROS' \\
+-- -> ROS found} \\
+\textbf{Ergebnis:} \checkmark
+\item EEROS baut fehlerfrei und wird richtig installiert. \\
+\textbf{Ergebnis:} \checkmark
+\item Die EEROS-Testapplikation ''\textit{EEROS-Applikation\_t2.0}'' lässt sich bauen. \\
+\textbf{Ergebnis:} \checkmark
+\item Den ROS Core mit \textit{\# roscore} starten.
+\item \textit{\# rqt\_console} starten.
+\item Die EEROS-Testapplikation lässt sich mit \textit{\# sudo -E ./testappEEROSVT2 } starten. \\
+\textbf{Ergebnis:} \checkmark
+\item Bei der \textit{rqt\_console} ist mindestens eine neue \textit{Log-Message} von der Testapplikation erschienen. \\
+\textbf{Ergebnis:} \checkmark
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+%\textbf{Repositories:} \\
+%\begin{tabular}
+%  { l						| l			 							l								 l								}
+%
+%% Name						Repo   									Branch Aufwand     				Tag
+%  EEROS\_t2.0				& \textit{Repository}: eeros-framework	& \textit{Branch}: ROSVt2		& \textit{Tag}: Test002.0 		\\
+%  EEROS-Applikation\_t2.0	& \textit{Repository}: testAppVt2		& \textit{Branch}: master		& \textit{Tag}: Test002.0 		\\
+%\end{tabular}
+%
+%\textbf{Ablauf: } \\
+%\begin{enumerate}
+%\item 
+%%\textbf{Ergebnis:} \checkmark
+%\end{enumerate}
