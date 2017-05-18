@@ -22,15 +22,15 @@ Eine C++-Applikation schreiben, die folgende Eigenschaften erfüllt:
 
 \textbf{Ablauf: }
 \begin{enumerate}
-\item Den ROS Core mit \textit{\# roscore} starten.
-\item \textit{\# rqt\_console} starten.
-\item Mit dem Befehl \textit{\# rosnode list} 
+\item Den ROS Core mit \textit{\$ roscore} starten.
+\item \textit{\$ rqt\_console} starten.
+\item Mit dem Befehl \textit{\$ rosnode list} 
 \item Testapplikation ''\textit{testAppVT2\_t1.0}'' starten.
-\item Solange die Applikation läuft, muss bei \textit{\# rosnode list} ein neuer Node aufgelistet sein. \\
+\item Solange die Applikation läuft, muss bei \textit{\$ rosnode list} ein neuer Node aufgelistet sein. \\
 \textbf{Ergebnis:} \checkmark
 \item Bei der \textit{rqt\_console} ist mindestens eine neue \textit{Log-Message} von der Testapplikation erschienen. \\
 \textbf{Ergebnis:} \checkmark
-\item Nachdem die Testapplikation beendet wurde, ist der Knoten der Testapplikation unter \textit{\# rosnode list} wieder verschwunden. \\
+\item Nachdem die Testapplikation beendet wurde, ist der Knoten der Testapplikation unter \textit{\$ rosnode list} wieder verschwunden. \\
 \textbf{Ergebnis:} \checkmark
 \end{enumerate}
 
@@ -50,7 +50,7 @@ Eine Klasse in EEROS erstellen, die ROS verwendet und den EEROS Quellcode umschr
 
 % Name						Repo   									Branch Aufwand     				Tag
   EEROS\_t2.0				& \textit{Repository}: eeros-framework	& \textit{Branch}: ROSVt2		& \textit{Tag}: Test002.0 		\\
-  EEROS-Applikation\_t2.0	& \textit{Repository}: testAppVt2		& \textit{Branch}: master		& \textit{Tag}: Test002.0 		\\
+  EEROS-Applikation\_t2.0	& \textit{Repository}: testAppEEROSVt2	& \textit{Branch}: master		& \textit{Tag}: Test002.0 		\\
 \end{tabular}
 
 \textbf{Ablauf: } 
@@ -75,9 +75,9 @@ Eine Klasse in EEROS erstellen, die ROS verwendet und den EEROS Quellcode umschr
 \textbf{Ergebnis:} \checkmark
 \item Die EEROS-Testapplikation ''\textit{EEROS-Applikation\_t2.0}'' lässt sich bauen. \\
 \textbf{Ergebnis:} \checkmark
-\item Den ROS Core mit \textit{\# roscore} starten.
-\item \textit{\# rqt\_console} starten.
-\item Die EEROS-Testapplikation lässt sich mit \textit{\# sudo -E ./testappEEROSVT2 } starten. \\
+\item Den ROS Core mit \textit{\$ roscore} starten.
+\item \textit{\$ rqt\_console} starten.
+\item Die EEROS-Testapplikation lässt sich mit \textit{\$ sudo -E ./testappEEROSVT2 } starten. \\
 \textbf{Ergebnis:} \checkmark
 \item Bei der \textit{rqt\_console} ist mindestens eine neue \textit{Log-Message} von der Testapplikation erschienen. \\
 \textbf{Ergebnis:} \checkmark
@@ -85,10 +85,42 @@ Eine Klasse in EEROS erstellen, die ROS verwendet und den EEROS Quellcode umschr
 
 
 
+\section{Fernsteuerung}
+\subsection{Einfacher ROS-Knoten}
+\subsubsection{Zu erfüllende Testbedingungen}
+In EEROS einen Block für das \textit{Control System} erstellen, welcher das \textit{Topic} vom \textit{turtle\_teleop\_key} einlesen kann.
+\begin{itemize}
+\item Eine EEROS-Testapplikation verwendet einen dafür vorgesehenen Block von EEROS, um die vom \textit{turtle\_teleop\_key} publizierten \textit{Messages} anzuzeigen.
+\end{itemize}
 
+\subsubsection{Testdurchführung}
+\textbf{Repositories:} \\
+\begin{tabular}
+  { l						| l			 							l								 l								}
 
+% Name						Repo   									Branch Aufwand     				Tag
+  EEROS\_t3.0				& \textit{Repository}: eeros-framework	& \textit{Branch}: ROSVt2		& \textit{Tag}: Test003.0 		\\
+  EEROS-Applikation\_t3.0	& \textit{Repository}: testAppEEROSVt2	& \textit{Branch}: master		& \textit{Tag}: Test003.0 		\\
+\end{tabular}
 
-
+\textbf{Ablauf: } 
+\begin{enumerate}
+\item Den ROS Core mit \textit{\$ roscore} starten.
+\item Testapplikation ''\textit{EEROS-Applikation\_t3.0}'' in einem neuen Terminal starten.
+\item Den \textit{Turtlesim} Knoten mit \textit{\$ rosrun turtlesim turtle\_teleop\_key} starten.
+\item Für die vier Pfeiltaste muss beim Terminal von der Testapplikation eine entsprechende Ausgabe erscheinen. \\
+\textbf{Ergebnis:} \checkmark
+\item Beide Applikationen beenden.
+\item Den \textit{Turtlesim} Knoten mit \textit{\$ rosrun turtlesim turtle\_teleop\_key} starten.
+\item Testapplikation ''\textit{EEROS-Applikation\_t3.0}'' in einem neuen Terminal starten.
+\item Das Teminal mit dem \textit{Turtlesim} Knoten anwählen.
+\item Für die vier Pfeiltaste muss beim Terminal von der Testapplikation eine entsprechende Ausgabe erscheinen. \\
+\textbf{Ergebnis:} \checkmark
+\item Den \textit{Turtlesim} Knoten beenden.
+\item Den \textit{Turtlesim} Knoten mit \textit{\$ rosrun turtlesim turtle\_teleop\_key} neu starten.
+\item Für die vier Pfeiltaste muss beim Terminal von der Testapplikation eine entsprechende Ausgabe erscheinen. \\
+\textbf{Ergebnis:} \checkmark
+\end{enumerate}
 
 
 

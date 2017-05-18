@@ -12,16 +12,18 @@
 \end{enumerate}
 
 
-\section{Fernsteuerung}
+\section{Fernsteuerung und lesen von ROS-Topics}
 \subsection{Beschreibung}
 %TODO
 Ein Roboter mit EEROS kann über ROS ferngesteuert werden.
-Dazu sollen standard-ROS-Knoten, wie etwa 'joy'-Packet\footnote{http://wiki.ros.org/joy} verwendet werden können.
+Dafür muss EEROS im \textit{Control System} Daten von einem \textit{ROS-Topic} lesen können.
+Um einen Roboter fernsteuern zu können, soll ein standard-ROS-Knoten, wie etwa 'joy'-Packet\footnote{http://wiki.ros.org/joy} verwendet werden.
 %nur als input
 
 \subsection{Teilziele}
 \begin{enumerate}
-\item Steuerungsbefehle mit einem einfachen ROS-Knoten wie der \textit{turtle\_teleop\_key}.
+\item Einfacher ROS-Knoten. Steuerungsbefehle mit einem einfachen ROS-Knoten wie der \textit{turtle\_teleop\_key}.
+\item Generische \textit{Messages}. Generische \textit{Messages} von einem ROS-Knoten lesen können.
 \item Der Steuerungsbefehl wir über die HAL eingelesen. Die Steuerungsbefehle können als reguläre Inputs im EEROS gelesen werden.
 \item Steuerungsbefehle mit einem generischen Tastatur-Knoten damit eine Steuerung über eine Tastatur möglich ist.
 \item Steuerungsbefehle mit einem XBox-Controller.
@@ -145,9 +147,10 @@ Für die Fehlersuche ist es manchmal von Vorteil, wenn Ausgänge und Konstanten 
 % Feature							  Teilziel   								Nutzen      Aufwand     Punkte
   Essential							& 1. Unabhängiger ROS-Knoten				& 10		& 3			& 3.3		\\
   									& 2. CMAKE									& 10		& 4			& 2.5		\\ \hline
-  Fernsteuerung						& 1. Einfacher ROS-Knoten					& 6			& 3			& 2.0		\\
-  									& 2. HAL									& 8			& 7			& 1.1		\\
-  									& 3. Generischer Tastaturknoten				& 7			& 5			& 1.4		\\ 
+  Fernsteuerung						& 1. Einfacher ROS-Knoten					& 8			& 3			& 2.7		\\
+  									& 2. Generischer ROS-Knoten					& 8			& 4			& 2.0		\\
+  									& 3. HAL									& 8			& 7			& 1.1		\\
+  									& 4. Generischer Tastaturknoten				& 7			& 5			& 1.4		\\ 
   									& 4. XBox-Controller						& 7			& 5			& 1.4		\\ \hline
   Logging 							& 1. EEROS-Logger umlenken					& 8			& 4			& 2.0		\\
   									& 2. \textit{Verbosity levels} beibehalten	& 7			& 5			& 1.4		\\
