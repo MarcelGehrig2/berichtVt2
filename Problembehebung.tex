@@ -53,3 +53,30 @@ Verwende: \\
 \textit{\$ sudo -E ./applikation} \\
 anstelle von: \\
 \textit{\$ sudo ./applikation}.
+
+
+
+\section{Problem beim speichern von Daten von einer ROS-Message in ein EEROS-Signal}
+%TODO
+
+\subsection{Problembeschreibung}
+%TODO wann tritt das auf
+Fehlermeldung:
+
+\texttt{
+.../Matrix.hpp:46: error: no matching function for call to \\
+'forward(const std::vector<float>\&)' \\
+\-\hspace{2cm} Matrix(const S... v) : value{std::forward<const T>(v)...} 
+}
+
+\subsection{Ursache}
+Der \textit{Vector} von der \textit{ROS-Message} ist nicht vom gleichen Typ wie der Vektor vom Ausgangssignal.
+
+\subsection{Lösung}
+Der \textit{Vecctor} kann folgendermassen zum gewünschten Typ umgewandelt werden:
+\lstset{language=C++}
+\begin{lstlisting}
+std::vector<double> tmp( msg.axes.begin(), msg.axes.end() );	// cast because axes is a float32 vector
+axesValue.setCol(0, tmp);	// double vector
+axesOutput.getSignal().setValue(axesValue); 
+\end{lstlisting}

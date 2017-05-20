@@ -1,0 +1,37 @@
+\chapter{Implementation aus EEROS-Entwickler Sicht}
+
+
+\section{ROSBlock.hpp}
+%TODO
+Es liegt nahe, in EEROS ein ROS-Block als vererbbare Basis-Klasse zu erstellen.
+So könnten alle notwendigen Initialisierungen in einer Basis-Klasse versteckt werden, ohne das sich ein Applikations-Entwickler damit beschäftigen muss.
+
+Dafür ist es notwendig, dass die \textit{Callback function} bereits in der Basisklasse deklariert wird.
+Der \textit{Callback function} muss dabei eine Referenz auf die zu empfangende \textit{Message} als Funktionsparameter übergeben werden.
+Das folgende Beispiel zeigt eine mögliche Implementation:
+
+\lstset{language=C++}
+\begin{lstlisting}
+virtual void rosCallbackFct(const sensor_msgs::Joy& msg)
+\end{lstlisting}
+
+Natürlich kann so eine Implementation nur für einen einzigen Typ von einer ROS-Nachricht genutzt werden.
+Das es aber, wenn man die benutzerdefinierten Nachrichten dazu zählt, eine unbegrenzte Anzahl von verschiedenen Nachrichtentypen gibt, ist diese Lösung nicht brauchbar. %TODO satzbau
+
+Es liegt nahe den ROS-Block als \textit{Template} zu implementieren.
+ROS stellt eine Funktion zu Verfügung, welche den Typ einer ROS-Nachricht zurückgibt.
+So könnte man einen benutzerdefinierten Block, abgeleitet vom ROS-Block, mit Hilfe vom Typ der ROS-Nachricht deklarieren:
+
+\lstset{language=C++}
+\begin{lstlisting}
+ROSBlock<sensor_msgs::Joy::Type> myRosBlock;
+\end{lstlisting}
+
+Da der von der ROS-Methode zurückgegebene Typ aber ein abstrakter Typ ist, kann der Block nicht mit dieser Methode deklariert werden.
+Versucht man es trotzdem, erhält man folgenden Fehler:
+
+\textit{
+error: cannot declare field 'testapp::TestAppCS::rosBlockA' to be of abstract type 'eeros::control::ROSBlock
+<sensor\_msgs::Joy\_<std::allocator<void> > >'\\
+\-\hspace{2cm} ROSBlock<sensor\_msgs::Joy> rosBlockA;
+}
