@@ -1,0 +1,212 @@
+\chapter{Performance Tests}
+\section{Einleitung}
+%TODO beschreibung des systems (laptop)
+In einem Echtzeit System wie EEROS ist es besonders wichtig, dass die echtzeitfähigen EEROS Tasks nicht zu fest ausgebremst werden.
+Wenn eine ROS-Funktion einen EEROS \textit{Thread} zu lange blockiert, könnte die Echtzeitfähigkeit von EEROS beeinträchtigt werden.
+
+Das ROS-Netzwerk verbindet unterschiedliche Knoten über ein Netzwerk.
+Dabei kann es vorkommen, das einige Knoten viel schneller auf ein \textit{Topic} schreiben, als das davon gelesen wird.
+Auch der gegenteilige Fall, es wird viel schneller gelesen als veröffentlicht wird, kann vorkommen.
+Die Software muss in beiden Fällen zuverlässig funktionieren.
+
+Bei vielen eingebetteten Systemen sind Ressourcen wie Prozessorleistung, Arbeitsspeicher und die Bandbreite in einem Netzwerk begrenzt.
+Deshalb ist es wichtig abschätzten zu können, wie viel Ressourcen von der Software belegt werden.
+
+Alle oben genanten Eigenschaften werden im folgenden Kapitel gemessen, getestet und beurteilt.
+
+
+\section{Zeitverbrauch von einigen ROScpp Befehlen}
+%\textbf{Repositories:} \\
+%\begin{tabular}
+%  { l						| l			 							l								 l								}
+%% Name						Repo   									Branch	     					Tag
+%  testAppVT2\_t1.0			& \textit{Repository}: eeros-framework	& \textit{Branch}: master		& \textit{Tag}: Test001.0 		\\
+%  %TODO 
+%\end{tabular}
+
+\subsection{Logging Befehle von ROS}
+%TODO ros logging erklären
+
+\subsubsection{Durchführung}
+Die Messungen haben gezeigt, dass der erste Aufruf von \textit{ROS\_INFO\_STREAM} viel mehr Zeit braucht als alle darauf folgenden.
+Vermutlich werden beim ersten Aufruf alle benötigten Instruktionen in den Cache geladen.
+Bei jedem weiteren Aufruf müssen die Instruktionen nicht mehr in den Cache geladen werden.
+Aus diesem Grund brauchen alle direkt folgenden Aufrufe weniger Zeit.
+
+Der oben genannte Effekt konnte reproduziert werden, in dem die Applikation neu gestartet wurde.
+Wenn der Prozess für eine Sekunde schlafen gelegt wurde, konnte ebenfalls ein ähnlicher Effekt erzielt werden.
+
+Die Befehle \textit{ROS\_INFO\_STREAM} und \textit{ROS\_INFO} brauchen etwa gleichviel Zeit.
+
+\subsubsection{Fazit}
+Ein Logging-Befehl von ROS braucht ca. \unit[50]{usec} bis \unit[80]{usec}.
+Alle unmittelbar darauffolgende Logging-Befehle brauchen ca. \unit[10]{usec} bis \unit[15]{usec}.
+Je nach Anwendung kann diese Zeit akzeptabel oder kritisch sein.
+
+
+%TODO anhang
+
+
+%\section{Tests für ''Essential Features''}
+%\subsection{Unabhängiger ROS-Knoten}
+%\subsubsection{Zu erfüllende Testbedingungen}
+%Eine C++-Applikation schreiben, die folgende Eigenschaften erfüllt:
+%\begin{enumerate}
+%\item Applikation meldet sich als ROS-Knoten an.
+%\item Applikation schickt eine \textit{ROS Log Statement}.
+%\end{enumerate}
+%
+%\subsubsection{Testdurchführung}
+%\textbf{Repositories:} \\
+%\begin{tabular}
+%  { l						| l			 							l								 l								}
+%% Name						Repo   									Branch	     					Tag
+%  testAppVT2\_t1.0			& \textit{Repository}: eeros-framework	& \textit{Branch}: master		& \textit{Tag}: Test001.0 		\\
+%  %TODO 
+%\end{tabular}
+%
+%\textbf{Ablauf: }
+%\begin{enumerate}
+%\item Den ROS Core mit \textit{\$ roscore} starten.
+%\item \textit{\$ rqt\_console} starten.
+%\item Mit dem Befehl \textit{\$ rosnode list} 
+%\item Testapplikation ''\textit{testAppVT2\_t1.0}'' starten.
+%\item Solange die Applikation läuft, muss bei \textit{\$ rosnode list} ein neuer Node aufgelistet sein. \\
+%\textbf{Ergebnis:} \checkmark
+%\item Bei der \textit{rqt\_console} ist mindestens eine neue \textit{Log-Message} von der Testapplikation erschienen. \\
+%\textbf{Ergebnis:} \checkmark
+%\item Nachdem die Testapplikation beendet wurde, ist der Knoten der Testapplikation unter \textit{\$ rosnode list} wieder verschwunden. \\
+%\textbf{Ergebnis:} \checkmark
+%\end{enumerate}
+%
+%
+%\subsection{CMAKE}
+%\subsubsection{Zu erfüllende Testbedingungen}
+%Eine Klasse in EEROS erstellen, die ROS verwendet und den EEROS Quellcode umschreiben, damit folgende Bedingungen erfüllt werden:
+%\begin{itemize}
+%\item Wenn ROS installiert ist, wird die neu geschriebene Klasse kompiliert und gegen die entsprechenden ROS-Bibliotheken gelinkt.
+%\item Wenn ROS nicht installiert ist, dann wird die neu geschriebene Klasse nicht kompiliert und die restlichen Teile von EEROS kompilieren fehlerfrei.
+%\end{itemize}
+%
+%\subsubsection{Testdurchführung}
+%\textbf{Repositories:} \\
+%\begin{tabular}
+%  { l						| l			 							l								 l								}
+%
+%% Name						Repo   									Branch Aufwand     				Tag
+%  EEROS\_t2.0				& \textit{Repository}: eeros-framework	& \textit{Branch}: ROSVt2		& \textit{Hash}: 8f8d9da		\\
+%  EEROS-Applikation\_t2.0	& \textit{Repository}: testAppEEROSVt2	& \textit{Branch}: master		& \textit{Tag}: Test002.0 		\\
+%\end{tabular}
+%
+%\textbf{Ablauf: } 
+%\begin{enumerate}
+%\item Den \textit{build} Ordner und den \textit{install} Ordner von ''\textit{EEROS\_t2.0} löschen.
+%\item \textit{CMAKE} ausführen, \textbf{ohne} dass vorher das \textit{Setup-Skript} von ROS ausgeführt wurde.
+%\item Wenn \textit{CMAKE} ausgeführt wird, erscheint unter anderem folgende Ausgabe: \\
+%\textit{-- looking for package 'ROS' \\
+%-- -> ROS NOT found} \\
+%\textbf{Ergebnis:} \checkmark
+%\item EEROS baut fehlerfrei und wird richtig installiert. \\
+%\textbf{Ergebnis:} \checkmark
+%\item Die EEROS-Testapplikation ''\textit{EEROS-Applikation\_t2.0}'' lässt sich \textbf{nicht} bauen, da ein \textit{Header file} von ROS fehlt. \\
+%\textbf{Ergebnis:} \checkmark
+%\item Den \textit{build} Ordner und den \textit{install} Ordner von ''\textit{EEROS\_t2.0} löschen.
+%\item \textit{CMAKE} ausführen, \textbf{nachdem} das \textit{Setup-Skript} von ROS ausgeführt wurde.
+%\item Wenn \textit{CMAKE} ausgeführt wird, erscheint unter anderem folgende Ausgabe: \\
+%\textit{-- looking for package 'ROS' \\
+%-- -> ROS found} \\
+%\textbf{Ergebnis:} \checkmark
+%\item EEROS baut fehlerfrei und wird richtig installiert. \\
+%\textbf{Ergebnis:} \checkmark
+%\item Die EEROS-Testapplikation ''\textit{EEROS-Applikation\_t2.0}'' lässt sich bauen. \\
+%\textbf{Ergebnis:} \checkmark
+%\item Den ROS Core mit \textit{\$ roscore} starten.
+%\item \textit{\$ rqt\_console} starten.
+%\item Die EEROS-Testapplikation lässt sich mit \textit{\$ sudo -E ./testappEEROSVT2 } starten. \\
+%\textbf{Ergebnis:} \checkmark
+%\item Bei der \textit{rqt\_console} ist mindestens eine neue \textit{Log-Message} von der Testapplikation erschienen. \\
+%\textbf{Ergebnis:} \checkmark
+%\end{enumerate}
+%
+%
+%
+%\section{Fernsteuerung}
+%\subsection{Einfacher ROS-Knoten}
+%\subsubsection{Zu erfüllende Testbedingungen}
+%In EEROS einen Block für das \textit{Control System} erstellen, welcher das \textit{Topic} vom \textit{turtle\_teleop\_key} einlesen kann.
+%\begin{itemize}
+%\item Eine EEROS-Testapplikation verwendet einen dafür vorgesehenen Block von EEROS, um die vom \textit{turtle\_teleop\_key} publizierten \textit{Messages} anzuzeigen.
+%\end{itemize}
+%
+%\subsubsection{Testdurchführung}
+%\textbf{Repositories:} \\
+%\begin{tabular}
+%  { l						| l			 							l								 l								}
+%
+%% Name						Repo   									Branch Aufwand     				Tag
+%  EEROS\_t3.0				& \textit{Repository}: eeros-framework	& \textit{Branch}: ROSVt2		& \textit{Hash}: 5bf16d6		\\
+%  EEROS-Applikation\_t3.0	& \textit{Repository}: testAppEEROSVt2	& \textit{Branch}: master		& \textit{Tag}: Test003.0		\\
+%\end{tabular}
+%
+%\textbf{Ablauf: } 
+%\begin{enumerate}
+%\item Den ROS Core mit \textit{\$ roscore} starten.
+%\item Testapplikation ''\textit{EEROS-Applikation\_t3.0}'' in einem neuen Terminal starten.
+%\item Den \textit{Turtlesim} Knoten mit \textit{\$ rosrun turtlesim turtle\_teleop\_key} starten.
+%\item Für die vier Pfeiltaste muss beim Terminal von der Testapplikation eine entsprechende Ausgabe erscheinen. \\
+%\textbf{Ergebnis:} \checkmark
+%\item Beide Applikationen beenden.
+%\item Den \textit{Turtlesim} Knoten mit \textit{\$ rosrun turtlesim turtle\_teleop\_key} starten.
+%\item Testapplikation ''\textit{EEROS-Applikation\_t3.0}'' in einem neuen Terminal starten.
+%\item Das Teminal mit dem \textit{Turtlesim} Knoten anwählen.
+%\item Für die vier Pfeiltaste muss beim Terminal von der Testapplikation eine entsprechende Ausgabe erscheinen. \\
+%\textbf{Ergebnis:} \checkmark
+%\item Den \textit{Turtlesim} Knoten beenden.
+%\item Den \textit{Turtlesim} Knoten mit \textit{\$ rosrun turtlesim turtle\_teleop\_key} neu starten.
+%\item Für die vier Pfeiltaste muss beim Terminal von der Testapplikation eine entsprechende Ausgabe erscheinen. \\
+%\textbf{Ergebnis:} \checkmark
+%\end{enumerate}
+%
+%
+%\subsection{Einfacher ROS-Knoten}
+%\subsubsection{Zu erfüllende Testbedingungen}
+%In EEROS einen Block für das \textit{Control System} erstellen, welcher von einer EEROS-Applikation benutzt werden kann, um eine beliebige \textit{ROS Message} von einem beliebigen \textit{ROS Topic} lesen zu können.
+%Eine EEROS-Testapplikation soll alle \textit{Messages} ausgeben, welche auf den Testknoten veröffentlicht werden.
+%%\begin{itemize}
+%%\item Ein
+%%\end{itemize}
+%
+%\subsubsection{Testdurchführung}
+%\textbf{Repositories:} \\
+%\begin{tabular}
+%  { l						| l			 							l								 l								}
+%
+%% Name						Repo   									Branch Aufwand     				Tag
+%  EEROS\_t4.0				& \textit{Repository}: eeros-framework	& \textit{Branch}: ROSVt2		& \textit{Hash}: 6de4bdb 		\\
+%  EEROS-Applikation\_t4.0	& \textit{Repository}: testAppEEROSVt2	& \textit{Branch}: master		& \textit{Tag}: Test004.0 		\\
+%  simpleROSNode\_t4.0		& \textit{Repository}: simpleROSNode	& \textit{Branch}: master		& \textit{Tag}: Test004.0 		\\
+%\end{tabular}
+%
+%\textbf{Ablauf: }
+%\begin{enumerate}
+%\item Die \textit{EEROS-Applikation\_t4.0} starten.
+%\item Ein Testprogramm starten, welches drei \textit{Topics} mit den Namen ''TestTopic1'', ''TestTopic2'' und ''TestTopic3'' erzeugt.
+%\item Mit \textit{rqt} und dem Plugin \textit{Message Plugin} \textit{Messages} mit folgende Typen an entsprechende \textit{Topics} senden:
+%  \begin{itemize}
+%  \item TestTopic1:	std\_msgs/Float64
+%  \item TestTopic2:	sensor\_msgs/Joy Message
+%  \item TestTopic3:	sensor\_msgs/LaserScan Message
+%  \end{itemize}
+%\item Die \textit{EEROS-Applikation\_t4.0} gibt korrekt die \textit{Message} aus, welche sie vom \textit{TestTopic1} empfängt. \\
+%\textbf{Ergebnis:} \checkmark
+%\item Die \textit{EEROS-Applikation\_t4.0} gibt korrekt die \textit{Message} aus, welche sie vom \textit{TestTopic2} empfängt. \\
+%\textbf{Ergebnis:} \checkmark
+%\item Die \textit{EEROS-Applikation\_t4.0} gibt korrekt die \textit{Message} aus, welche sie vom \textit{TestTopic3} empfängt. \\
+%\textbf{Ergebnis:} Übersprungen. Kein Mehrwert zum vorherigen Test.
+%\end{enumerate}
+
+
+
+
+
+

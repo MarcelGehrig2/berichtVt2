@@ -7,3 +7,35 @@
 \item Starte einen Knoten mit einem anderen Namen: \\
 \textit{\$ rosrun my\_package node\_executable \_\_name:=my\_node1}
 \end{itemize}
+
+
+\section{Hilfreiche ROS Werkzeuge}
+
+\begin{itemize}
+\item rqt
+\end{itemize}
+
+
+\section{Allgemeine Funktionsweise von ROS}
+
+\begin{itemize}
+\item Wenn \textit{Messages} von einem \textit{Node} schneller abgefragt werden, als neue \textit{Messages} veröffentlicht werden, dann wird die zuletzt veröffentlichte \textit{Message} mehrmals zurückgegeben.
+\item Wenn \textit{Messages} schneller \textit{published} als abgeholt, dann werden die \textit{Messages} in einem \textit{Buffer}, der sogenannten '\textit{Message Queue}' zwischengespeichert. Die Grösse der \textit{Message Queue} wird definiert, wenn sich ein \textit{Node} (\textit{Publisher} oder \textit{Subscirber}) bei einem \textit{Topic} anmeldet. Der \textit{Publisher} und der \textit{Subscriber} haben zwei unabhängige \textit{Buffer}. Der \textit{Subscriber} erhält immer die älteste, nicht abgeholte \textit{Message} zuerst.
+\item Ist der \textit{Buffer} voll, dann werden die ältesten \textit{Messages} vom \textit{Publisher} überschrieben.
+\end{itemize}
+
+
+\section{Implementation in ROScpp}
+\begin{itemize}
+\item '\textit{ros::spinOnce()}' führt für jede \textit{Message} in der \textit{Message Queue} die \textit{Callback Function} einmal aus. Die älteste \textit{Message} wird zuerst verarbeitet. Sobald die letzte \textit{Message} verarbeitet wurde, beendet der Befehl.
+\item '\textit{ros::spin()}' funktioniert wie \textit{ros::spinOnce()}, aber der Befehl blockiert weiter, wenn die letzte \textit{Message} verarbeitet wurde. Wird eine neue \textit{Message} auf dem \textit{Topic} veröffentlicht, wird sofort die \textit{Callback Function} ausgeführt, da \textit{ros::spin()} immer auf neue \textit{Messages} wartet.
+\item '\textit{ros::getGlobalCallbackQueue()->callAvailable()}' ist von der Funktion her identisch wie \textit{ros::spinOnce()}. Nur der Namen ist anders.
+\item '\textit{ros::getGlobalCallbackQueue()->callOne()} führt die \textit{Callback Function} nur für die älteste \textit{Message} aus.
+\end{itemize}
+
+
+\section{Debugging Hilfen}
+\begin{itemize}
+\item Wenn der Logger '\textit{ros.roscpp}' eines \textit{Subsribers} auf den Level '\textit{Debug}' gesetzt wird, dann werden Warnungen im Stil von ''\textit{Incomming queue was full for topic ...}'' ausgegeben, wenn der \textit{Subsciber} die \textit{Messages} nicht schnell genug verarbeiten kann und der Buffer überfüllt ist.
+\item Eine ähnliche Warnung wird beim \textit{Logger} '\textit{ros.roscpp}' eines \textit{Publishers} ausgegeben, wenn die \textit{Messages} nicht schnell genug geschickt werden können. Dies wäre zum Beispiel der Fall, wenn die Netzwerkverbindung zu langsam ist.
+\end{itemize}
