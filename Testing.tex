@@ -17,8 +17,7 @@ Eine C++-Applikation schreiben, die folgende Eigenschaften erfüllt:
 \begin{tabular}
   { l						| l			 							l								 l								}
 % Name						Repo   									Branch	     					Tag
-  testAppVT2\_t1.0			& \textit{Repository}: eeros-framework	& \textit{Branch}: master		& \textit{Tag}: Test001.0 		\\
-  %TODO 
+  SimpleRosNode\_t1.0		& \textit{Repository}: SimpleRosNode	& \textit{Branch}: master		& \textit{Tag}: Test001.0 		\\
 \end{tabular}
 
 \textbf{Ablauf: }
@@ -26,7 +25,7 @@ Eine C++-Applikation schreiben, die folgende Eigenschaften erfüllt:
 \item Den ROS Core mit \textit{\$ roscore} starten.
 \item \textit{\$ rqt\_console} starten.
 \item Mit dem Befehl \textit{\$ rosnode list} 
-\item Testapplikation ''\textit{testAppVT2\_t1.0}'' starten.
+\item Testapplikation ''\textit{SimpleRosNode\_t1.0}'' starten.
 \item Solange die Applikation läuft, muss bei \textit{\$ rosnode list} ein neuer Node aufgelistet sein. \\
 \textbf{Ergebnis:} \checkmark
 \item Bei der \textit{rqt\_console} ist mindestens eine neue \textit{Log-Message} von der Testapplikation erschienen. \\
@@ -50,8 +49,8 @@ Eine Klasse in EEROS erstellen, die ROS verwendet und den EEROS Quellcode umschr
   { l						| l			 							l								 l								}
 
 % Name						Repo   									Branch Aufwand     				Tag
-  EEROS\_t2.0				& \textit{Repository}: eeros-framework	& \textit{Branch}: ROSVt2		& \textit{Hash}: 8f8d9da		\\
-  EEROS-Applikation\_t2.0	& \textit{Repository}: testAppEEROSVt2	& \textit{Branch}: master		& \textit{Tag}: Test002.0 		\\
+  EEROS\_t2.0				& \textit{Repository}: EEROS			& \textit{Branch}: ROSVt2		& \textit{Hash}: 8f8d9da		\\
+  EEROSTestApp\_t2.0		& \textit{Repository}: EEROSTestApp	& \textit{Branch}: master		& \textit{Tag}: Test002.0 		\\
 \end{tabular}
 
 \textbf{Ablauf: } 
@@ -64,7 +63,7 @@ Eine Klasse in EEROS erstellen, die ROS verwendet und den EEROS Quellcode umschr
 \textbf{Ergebnis:} \checkmark
 \item EEROS baut fehlerfrei und wird richtig installiert. \\
 \textbf{Ergebnis:} \checkmark
-\item Die EEROS-Testapplikation ''\textit{EEROS-Applikation\_t2.0}'' lässt sich \textbf{nicht} bauen, da ein \textit{Header file} von ROS fehlt. \\
+\item Die EEROS-Testapplikation ''\textit{EEROSTestApp\_t2.0}'' lässt sich \textbf{nicht} bauen, da ein \textit{Header file} von ROS fehlt. \\
 \textbf{Ergebnis:} \checkmark
 \item Den \textit{build} Ordner und den \textit{install} Ordner von ''\textit{EEROS\_t2.0} löschen.
 \item \textit{CMAKE} ausführen, \textbf{nachdem} das \textit{Setup-Skript} von ROS ausgeführt wurde.
@@ -74,7 +73,7 @@ Eine Klasse in EEROS erstellen, die ROS verwendet und den EEROS Quellcode umschr
 \textbf{Ergebnis:} \checkmark
 \item EEROS baut fehlerfrei und wird richtig installiert. \\
 \textbf{Ergebnis:} \checkmark
-\item Die EEROS-Testapplikation ''\textit{EEROS-Applikation\_t2.0}'' lässt sich bauen. \\
+\item Die EEROS-Testapplikation ''\textit{EEROSTestApp\_t2.0}'' lässt sich bauen. \\
 \textbf{Ergebnis:} \checkmark
 \item Den ROS Core mit \textit{\$ roscore} starten.
 \item \textit{\$ rqt\_console} starten.
@@ -100,20 +99,20 @@ In EEROS einen Block für das \textit{Control System} erstellen, welcher das \te
   { l						| l			 							l								 l								}
 
 % Name						Repo   									Branch Aufwand     				Tag
-  EEROS\_t3.0				& \textit{Repository}: eeros-framework	& \textit{Branch}: ROSVt2		& \textit{Hash}: 5bf16d6		\\
-  EEROS-Applikation\_t3.0	& \textit{Repository}: testAppEEROSVt2	& \textit{Branch}: master		& \textit{Tag}: Test003.0		\\
+  EEROS\_t3.0				& \textit{Repository}: EEROS			& \textit{Branch}: ROSVt2		& \textit{Hash}: 5bf16d6		\\
+  EEROSTestApp\_t3.0		& \textit{Repository}: EEROSTestApp	& \textit{Branch}: master		& \textit{Tag}: Test003.0		\\
 \end{tabular}
 
 \textbf{Ablauf: } 
 \begin{enumerate}
 \item Den ROS Core mit \textit{\$ roscore} starten.
-\item Testapplikation ''\textit{EEROS-Applikation\_t3.0}'' in einem neuen Terminal starten.
+\item Testapplikation ''\textit{EEROSTestApp\_t3.0}'' in einem neuen Terminal starten.
 \item Den \textit{Turtlesim} Knoten mit \textit{\$ rosrun turtlesim turtle\_teleop\_key} starten.
 \item Für die vier Pfeiltaste muss beim Terminal von der Testapplikation eine entsprechende Ausgabe erscheinen. \\
 \textbf{Ergebnis:} \checkmark
 \item Beide Applikationen beenden.
 \item Den \textit{Turtlesim} Knoten mit \textit{\$ rosrun turtlesim turtle\_teleop\_key} starten.
-\item Testapplikation ''\textit{EEROS-Applikation\_t3.0}'' in einem neuen Terminal starten.
+\item Testapplikation ''\textit{EEROSTestApp\_t3.0}'' in einem neuen Terminal starten.
 \item Das Teminal mit dem \textit{Turtlesim} Knoten anwählen.
 \item Für die vier Pfeiltaste muss beim Terminal von der Testapplikation eine entsprechende Ausgabe erscheinen. \\
 \textbf{Ergebnis:} \checkmark
@@ -135,17 +134,17 @@ Eine EEROS-Testapplikation soll alle \textit{Messages} ausgeben, welche auf den 
 \subsubsection{Testdurchführung}
 \textbf{Repositories:} \\
 \begin{tabular}
-  { l						| l			 							l								 l								}
+  { l						| l			 									l								 l								}
 
-% Name						Repo   									Branch Aufwand     				Tag
-  EEROS\_t4.0				& \textit{Repository}: eeros-framework	& \textit{Branch}: ROSVt2		& \textit{Hash}: 6de4bdb 		\\
-  EEROS-Applikation\_t4.0	& \textit{Repository}: testAppEEROSVt2	& \textit{Branch}: master		& \textit{Tag}: Test004.0 		\\
-  simpleROSNode\_t4.0		& \textit{Repository}: simpleROSNode	& \textit{Branch}: master		& \textit{Tag}: Test004.0 		\\
+% Name						Repo   											Branch Aufwand     				Tag
+  EEROS\_t4.0				& \textit{Repository}: EEROS			& \textit{Branch}: ROSVt2		& \textit{Hash}: 6de4bdb 		\\
+  EEROSTestApp\_t4.0		& \textit{Repository}: EEROSTestApp	& \textit{Branch}: master		& \textit{Tag}: Test004.0 		\\
+  SimpleRosNode\_t4.0		& \textit{Repository}: SimpleRosNode	& \textit{Branch}: master		& \textit{Tag}: Test004.0 		\\
 \end{tabular}
 
 \textbf{Ablauf: }
 \begin{enumerate}
-\item Die \textit{EEROS-Applikation\_t4.0} starten.
+\item Die \textit{EEROSTestApp\_t4.0} starten.
 \item Ein Testprogramm starten, welches drei \textit{Topics} mit den Namen ''TestTopic1'', ''TestTopic2'' und ''TestTopic3'' erzeugt.
 \item Mit \textit{rqt} und dem Plugin \textit{Message Plugin} \textit{Messages} mit folgende Typen an entsprechende \textit{Topics} senden:
   \begin{itemize}
@@ -153,11 +152,11 @@ Eine EEROS-Testapplikation soll alle \textit{Messages} ausgeben, welche auf den 
   \item TestTopic2:	sensor\_msgs/Joy Message
   \item TestTopic3:	sensor\_msgs/LaserScan Message
   \end{itemize}
-\item Die \textit{EEROS-Applikation\_t4.0} gibt korrekt die \textit{Message} aus, welche sie vom \textit{TestTopic1} empfängt. \\
+\item Die \textit{EEROSTestApp\_t4.0} gibt korrekt die \textit{Message} aus, welche sie vom \textit{TestTopic1} empfängt. \\
 \textbf{Ergebnis:} \checkmark
-\item Die \textit{EEROS-Applikation\_t4.0} gibt korrekt die \textit{Message} aus, welche sie vom \textit{TestTopic2} empfängt. \\
+\item Die \textit{EEROSTestApp\_t4.0} gibt korrekt die \textit{Message} aus, welche sie vom \textit{TestTopic2} empfängt. \\
 \textbf{Ergebnis:} \checkmark
-\item Die \textit{EEROS-Applikation\_t4.0} gibt korrekt die \textit{Message} aus, welche sie vom \textit{TestTopic3} empfängt. \\
+\item Die \textit{EEROSTestApp\_t4.0} gibt korrekt die \textit{Message} aus, welche sie vom \textit{TestTopic3} empfängt. \\
 \textbf{Ergebnis:} Übersprungen. Kein Mehrwert zum vorherigen Test.
 \end{enumerate}
 

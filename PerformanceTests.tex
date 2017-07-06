@@ -14,15 +14,16 @@ Deshalb ist es wichtig abschätzten zu können, wie viel Ressourcen von der Soft
 
 Alle oben genanten Eigenschaften werden im folgenden Kapitel gemessen, getestet und beurteilt.
 
+%TODO 100 usec auf topic pushen
 
 \section{Zeitverbrauch von einigen ROScpp Befehlen}
-%\textbf{Repositories:} \\
-%\begin{tabular}
-%  { l						| l			 							l								 l								}
-%% Name						Repo   									Branch	     					Tag
-%  testAppVT2\_t1.0			& \textit{Repository}: eeros-framework	& \textit{Branch}: master		& \textit{Tag}: Test001.0 		\\
-%  %TODO 
-%\end{tabular}
+\textbf{Repositories:} \\
+\begin{tabular}
+  { l						| l			 							l										 l								}
+% Name						Repo   									Branch	     							Tag
+  SimpleROSNode\_pt1.0		& \textit{Repository}: SimpleROSNode	& \textit{Branch}: performanceTest01	& \textit{Hash}: 3a04f7d 		\\
+  EEROSTestApp\_pt1.0		& \textit{Repository}: EEROSTestApp		& \textit{Branch}: performanceTest01	& \textit{Hash}: 745cf77 		\\
+\end{tabular}
 
 \subsection{Logging Befehle von ROS}
 %TODO ros logging erklären
@@ -38,10 +39,17 @@ Wenn der Prozess für eine Sekunde schlafen gelegt wurde, konnte ebenfalls ein �
 
 Die Befehle \textit{ROS\_INFO\_STREAM} und \textit{ROS\_INFO} brauchen etwa gleichviel Zeit.
 
+Die Logging Funktion von EEROS blockiert etwas weniger lang.
+Aber auch beim EEROS eigenen Logger tritt das oben genannte Phänomen auf
+
 \subsubsection{Fazit}
-Ein Logging-Befehl von ROS braucht ca. \unit[50]{usec} bis \unit[80]{usec}.
-Alle unmittelbar darauffolgende Logging-Befehle brauchen ca. \unit[10]{usec} bis \unit[15]{usec}.
-Je nach Anwendung kann diese Zeit akzeptabel oder kritisch sein.
+\begin{itemize}
+\item Ein Logging-Befehl von ROS braucht ca. \unit[50]{usec} bis \unit[80]{usec}.
+\item Alle unmittelbar darauffolgende Logging-Befehle brauchen ca. \unit[10]{usec} bis \unit[15]{usec}.
+\item Ein Logging-Befehl von EEROS braucht ca. \unit[30]{usec} bis \unit[70]{usec}.
+\item Alle unmittelbar darauffolgende Logging-Befehle von EEROS brauchen ca. \unit[3]{usec} bis \unit[15]{usec}.
+\item Je nach Anwendung können diese Zeiten in einem Echtzeit Task akzeptabel oder kritisch sein.
+\end{itemize}
 
 
 %TODO anhang

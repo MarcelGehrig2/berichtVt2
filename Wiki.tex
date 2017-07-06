@@ -1,3 +1,66 @@
-\chapter{Wiki00}
+\chapter{Wiki}
 \section{Einleitung}
 Das folgende Kapitel ist so geschrieben, dass es möglichst einfach in das EEROS-Wiki\footnote{http://wiki.eeros.org/} übernommen werden kann.
+Da das EEROS-Wiki in englischer Sprache geschrieben ist, sind auch die folgenden Kapitel auf englisch verfasst.
+
+
+\section{Hello World!}
+%TODO introduction
+
+\subsection{Configure the toolchain}										%TODO
+To build an EEROS application with ROS, ROS ''kinetic' needs to be installed\footnote{TODO} on the developer machine and the target machine.
+Like for every other ROS application the \textit{setup.sh} script of ROS needs to be executed befor the built application can be started\footnote{TODO}.%TODO anleitung .bashrc
+
+In EEROS \textit{CMAKE} is used to build an application.
+If the EEROS application has dependencies on ROS, the \textit{setup.sh} script of ROS has to be executed before \textit{CMAKE} is called.
+If an IDE like ''\textit{Qt Creator}'' is used, the software has to be started from terminal.
+\textit{CMAKE} will not find the ROS library, if \textit{QT Creator} is launched from a desktop icon.
+
+\subsection{Configure the CMAKE file}
+The following example shows a \textit{CMAKE} file for an simple EEROS application with ROS.
+
+%\lstset{language=cmake}
+\lstset{language=c}
+\begin{lstlisting}
+cmake_minimum_required(VERSION 2.8)
+ 
+project(helloWorld)
+
+
+## ROS
+## ////////////////////////////////////////////////////////////////////////
+message(STATUS "looking for package 'ROS'")
+find_package( roslib REQUIRED )
+if (roslib_FOUND)
+	message( STATUS "-> ROS found")
+	include_directories( "${roslib_INCLUDE_DIRS}" )
+	message( STATUS "roslib_INCLUDE_DIRS: " ${roslib_INCLUDE_DIRS} )
+	list(APPEND ROS_LIBRARIES "${roslib_LIBRARIES}")
+	find_package( rosconsole REQUIRED)
+	list(APPEND ROS_LIBRARIES "${rosconsole_LIBRARIES}")
+	find_package( roscpp REQUIRED )
+	list(APPEND ROS_LIBRARIES "${roscpp_LIBRARIES}")
+else()
+	message( STATUS "-> ROS NOT found")
+endif()
+
+
+## EEROS
+## ////////////////////////////////////////////////////////////////////////
+find_package(EEROS REQUIRED)
+include_directories(${EEROS_INCLUDE_DIR})
+link_directories(${EEROS_LIB_DIR})
+
+
+## Application
+## ////////////////////////////////////////////////////////////////////////
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+ 
+add_executable(helloWorld
+	main.cpp	
+)
+
+
+target_link_libraries(helloWorld eeros ${ROS_LIBRARIES})
+
+\end{lstlisting}

@@ -11,11 +11,21 @@ Wenn aber \textit{roscpp} gefunden wird, kann davon ausgegangen werden, dass auc
 %\lstset{language=cmake}
 \lstset{language=c}
 \begin{lstlisting}
+## ROS	
+## ////////////////////////////////////////////////////////////////////////
 message(STATUS "looking for package 'ROS'")
-find_package(roscpp QUIET)
-if (roscpp_FOUND)
+find_package( roslib REQUIRED )
+if (roslib_FOUND)
 	message( STATUS "-> ROS found")
-	message( STATUS "roscpp_DIR:  " ${roscpp_DIR})
+	include_directories( "${roslib_INCLUDE_DIRS}" )
+	message( STATUS "roslib_INCLUDE_DIRS: " ${roslib_INCLUDE_DIRS} )
+	list(APPEND ROS_LIBRARIES "${roslib_LIBRARIES}")
+	find_package( rosconsole REQUIRED)
+	list(APPEND ROS_LIBRARIES "${rosconsole_LIBRARIES}")
+	find_package( roscpp REQUIRED )
+	list(APPEND ROS_LIBRARIES "${roscpp_LIBRARIES}")
+else()
+	message( STATUS "-> ROS NOT found")
 endif()
 \end{lstlisting}
 
