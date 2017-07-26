@@ -7,6 +7,11 @@ Da das EEROS-Wiki in englischer Sprache geschrieben ist, sind auch die folgenden
 \section{Hello World!}
 %TODO introduction
 
+
+\subsection{ROS with HAL or as block in the control System}
+
+
+
 \subsection{Configure the toolchain}										%TODO
 To build an EEROS application with ROS, ROS ''kinetic' needs to be installed\footnote{TODO} on the developer machine and the target machine.
 Like for every other ROS application the \textit{setup.sh} script of ROS needs to be executed befor the built application can be started\footnote{TODO}.%TODO anleitung .bashrc
@@ -64,3 +69,192 @@ add_executable(helloWorld
 target_link_libraries(helloWorld eeros ${ROS_LIBRARIES})
 
 \end{lstlisting}
+
+
+\section{EEROS HAL with ROS}
+\subsection{Introduction}
+The wrapper library ''\textit{ros-eeros}'' is used to connect the EEROS HAL with ROS topics.
+With the EEROS HAL digital and analougue inputs and outputs can be defined with an *.json file.
+If you want to test your application with an \textit{Gazebo} simulation, you can define your inputs and outputs as ROS-topics to connect your application with the simmulation completly without any real hardware.
+To use your application with hardware, you can use for example the wrapper library \textit{comedi-eeros} ord \textit{flink-eeros}.
+If you adapt the *.json file correctly, your application should now run on hardware with real encoders and motors without any problems.
+
+It is also possible, to use ROS-topics alongside real hardware.
+You can use \textit{comedi-eeros} to read an encoder and set a control value for a motor.
+At the same time you can publish the same values on rostopics to monitor them with \textit{Gazebo} (if you have a model of your robot) or you can monitor the values with a ROS-tool like ''\textit{rqt}'' in graph with \textit{MatPlot} or as numers in the \textit{TopicMonitor}.
+To store these values you can use \textit{ROS-Bag}.
+
+There are hundreds of different message types in ROS and it is possible to create custom types.
+Because every message type has be handled differently, only a few are suported by default.
+But the wrapper library can easily be extendendet to support addititional message types.
+%TODO verweis auf kapitel
+
+\subsection{The *.json file}
+Table \ref{tableKeyValueEeros} shows the most important key-values pairs for using the HAL with ROS.
+
+\begin{table}[]
+\centering
+\caption{Most important key-value pairs for ros-eeros}
+\label{tableKeyValueEeros}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Key                 & Typical value                         & Description              \\ \midrule
+library             & libroseeros.so                        & Wrapper library  for ROS \\
+devHandle           & testNodeHAL                           & ROS node created by HAL  \\
+type                & AnalogIn / AnalogOut / DigIn / DigOut & Type of input            \\ 
+additionalArguments & 'see next table'                      & 'see next table'         \\ \bottomrule
+\end{tabular}
+\end{table}
+
+The \textit{additionalArguments} are special arguments which are parsed in the wrapper library \textit{ros-eeros}.
+These arguments contain additional informations, which are necessary to communicate with a ROS network.
+All arguments are separated with a semicolon.
+The available arguments are listed in table \ref{tableAdditionalArgumentsEeros}.
+
+An example for the additional arguments could be:
+
+\begin{snugshade*}
+\textit{\char"22additionalArguments\char"22: \char"22topic=/testNode/TestTopic3; msgType=sensor\_msgs::LaserScan; \\
+dataField=scan\_time; callOne=false; queueSize=100\char"22,}
+\end{snugshade*}
+
+
+Table \ref{tableAdditionalArgumentsEeros} shows all currently available \textit{additionalArguments}.
+\textbf{topic} and \textbf{msgType} are mandatory arguments.
+
+\begin{table}[]
+\centering
+\caption{Additional arguments specific for ros-eeros}
+\label{tableAdditionalArgumentsEeros}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Key        & Typical value           & Description                                \\ \midrule
+\textbf{topic}      & /testNode/TestTopic1    & Topic to listen / subscribe                \\
+\textbf{msgType }   & sensor\_msgs::LaserScan & ROS message type of topic                  \\ 
+dataField & scan\_time              & Desired data member of message             \\
+callOne    & true                    & Oldest, not yet fetched message is fetched \\
+callOne    & false                   & Newest available message is fetched        \\
+queueSize  & 1000                    & Size of buffer; queueSize=1000 if omitted  \\ \bottomrule
+\end{tabular}
+\end{table}
+
+In table \ref{tableImplementedMsgTypes} are all currently implemented message types and associated data fields.
+If your desired message type is not implemented yet, you can easyly implement it yourself.
+See chapter \ref{sectionImplementMsgType} for an guide to implement additional message types and data fields in \textit{ros-eeros}.
+
+\begin{table}[]
+\centering
+\caption{Currently implemented message types in ros-eeros}
+\label{tableImplementedMsgTypes}
+\begin{tabular}{lll}
+\cline{2-3}
+HAL type  & msgType                    & dataField        \\ \cline{2-3} 
+AnalogIn  & std\_msgs::Float64         & -                \\
+          & sensor\_msgs::LaserScan    & angle\_min       \\
+          &                            & angle\_max       \\
+          &                            & angle\_increment \\
+          &                            & time\_increment  \\
+          &                            & scan\_time       \\
+          &                            & range\_min       \\
+          &                            & range\_max       \\
+AnalogOut & std\_msgs::Float64         & -                \\
+          & sensor\_msgs::LaserScan    & angle\_min       \\
+          &                            & angle\_max       \\
+          &                            & angle\_increment \\
+          &                            & time\_increment  \\
+          &                            & scan\_time       \\
+          &                            & range\_min       \\
+          &                            & range\_max       \\
+DigIn     & sensor\_msgs::BatteryState & present          \\
+DigOut    & sensor\_msgs::BatteryState & present          \\ \cline{2-3} 
+\end{tabular}
+\end{table}
+
+You can find a complete example, including a *.json file, in the eeros framework (/examples/hal/Ros*).
+
+
+\section{Using the ROS HAL in an EEROS application}
+Refere to the documentation of the EEROS HAL\footnote{http://wiki.eeros.org/eeros\_architecture/hal/start?s[]=hal} and check the example in the eeros framework (/examples/hal/Ros*).
+
+
+%example applikation
+
+
+\section{Add new ROS message type to the HAL}
+\label{sectionImplementMsgType}
+\subsection{Introduction}
+First you need to checkout the master branch of the wrapper library\footnote{https://github.com/eeros-project/sim-eeros}.
+After you have implemented and testet your additions, don't hesitate to push your changes to master.
+
+\subsection{Add an input}
+In this example I will describe only an \textit{AnalogIn}.
+The procedure to create a new msg type and data field for a \textit{DigIn} is similar.
+
+\textbf{\textit{AnalogIn.hpp:}}
+\begin{enumerate}
+	\item Include ROS message type
+	\begin{snugshade*}
+		\textit{\#include <sensor\_msgs/LaserScan.h>}
+	\end{snugshade*}
+	
+	\item Create new callback functions for ROS
+	\begin{snugshade*}
+		\textit{void sensorMsgsLaserScanAngleMin		(const sensor\_msgs::LaserScan::Type\& msg)	\\
+			{data = msg.angle\_min;} ;
+		}
+	\end{snugshade*}
+\end{enumerate}
+
+\textbf{\textit{AnalogIn.cpp:}}
+\begin{enumerate}
+	\setcounter{enumi}{2}
+	\item Extend parser by selecting correct callback function for ros
+	\begin{snugshade*}
+		\textit{else if ( msgType == \char"22sensor\_msgs::LaserScan\char"22 ) \char"7B\\
+			\-\hspace{1cm}if 		( dataField == \char"22angle\_min\char"22 )
+			subscriber = rosNodeHandle->subscribe(topic, queueSize, \&AnalogIn::sensorMsgsLaserScanAngleMin, this);
+		}
+	\end{snugshade*}
+\end{enumerate}
+
+\subsection{Add an output}
+In this example I will describe only an \textit{AnalogOut}.
+The procedure to create a new msg type and data field for a \textit{DigOut} is similar.
+
+\textbf{\textit{AnalogOut.hpp:}}
+\begin{enumerate}
+	\item Include ROS message type
+	\begin{snugshade*}
+		\textit{\#include <sensor\_msgs/LaserScan.h>}
+	\end{snugshade*}
+	
+	\item Declare set function for ROS
+	\begin{snugshade*}
+		\textit{static void sensorMsgsLaserScanAngleMin			(const double value, const ros::Publisher\& publisher);}
+	\end{snugshade*}
+\end{enumerate}
+
+%\textbf{\textit{AnalogOut.cpp:}}
+\begin{enumerate}
+	\setcounter{enumi}{2}
+	\item Extend parser by setting callback function
+	\begin{snugshade*}	
+		\textit{else if ( msgType == \char"22sensor\_msgs::LaserScan\char"22 ) \{\\
+			\-\hspace{1cm}publisher = rosNodeHandle->advertise<sensor\_msgs::LaserScan>(topic, queueSize);\\
+			\-\hspace{1cm}if ( dataField == \char"22angle\_min\char"22 )\\
+			\-\hspace{2cm}setFunction = \&sensorMsgsLaserScanAngleMin;
+			}
+	\end{snugshade*}
+	
+	\item Create set function for ROS
+	\begin{snugshade*}
+		\textit{void AnalogOut::sensorMsgsLaserScanAngleMin(const double value, const ros::Publisher\& publisher)\\
+			\char"7B\\
+			\-\hspace{1cm}sensor\_msgs::LaserScan msg;\\
+			\-\hspace{1cm}msg.header.stamp = getTime();\\
+			\-\hspace{1cm}msg.angle\_min = value;\\
+			\-\hspace{1cm}publisher.publish(msg);\\
+			\char"7D
+		}
+	\end{snugshade*}
+\end{enumerate}
