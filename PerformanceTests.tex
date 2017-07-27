@@ -1,18 +1,18 @@
 \chapter{Performance Tests}
 \section{Einleitung}
 %TODO beschreibung des systems (laptop)
-In einem Echtzeit System wie EEROS ist es besonders wichtig, dass die echtzeitfähigen EEROS Tasks nicht zu fest ausgebremst werden.
+In einem Echtzeitsystem wie EEROS ist es besonders wichtig, dass die echtzeitfähigen EEROS Tasks nicht zu fest ausgebremst werden.
 Wenn eine ROS-Funktion einen EEROS \textit{Thread} zu lange blockiert, könnte die Echtzeitfähigkeit von EEROS beeinträchtigt werden.
 
 Das ROS-Netzwerk verbindet unterschiedliche Knoten über ein Netzwerk.
-Dabei kann es vorkommen, das einige Knoten viel schneller auf ein \textit{Topic} schreiben, als das davon gelesen wird.
+Dabei kann es vorkommen, dass einige Knoten viel schneller auf ein \textit{Topic} schreiben, als dass davon gelesen wird.
 Auch der gegenteilige Fall, es wird viel schneller gelesen als veröffentlicht wird, kann vorkommen.
 Die Software muss in beiden Fällen zuverlässig funktionieren.
 
 Bei vielen eingebetteten Systemen sind Ressourcen wie Prozessorleistung, Arbeitsspeicher und die Bandbreite in einem Netzwerk begrenzt.
-Deshalb ist es wichtig abschätzten zu können, wie viel Ressourcen von der Software belegt werden.
+Deshalb ist es wichtig abschätzten zu können, wieviel Ressourcen von der Software belegt werden.
 
-Alle oben genanten Eigenschaften werden im folgenden Kapitel gemessen, getestet und beurteilt.
+Alle oben genannten Eigenschaften werden im folgenden Kapitel gemessen, getestet und beurteilt.
 
 %TODO 100 usec auf topic pushen
 
@@ -32,15 +32,15 @@ Alle oben genanten Eigenschaften werden im folgenden Kapitel gemessen, getestet 
 Die Messungen haben gezeigt, dass der erste Aufruf von \textit{ROS\_INFO\_STREAM} viel mehr Zeit braucht als alle darauf folgenden.
 Vermutlich werden beim ersten Aufruf alle benötigten Instruktionen in den Cache geladen.
 Bei jedem weiteren Aufruf müssen die Instruktionen nicht mehr in den Cache geladen werden.
-Aus diesem Grund brauchen alle direkt folgenden Aufrufe weniger Zeit.
+Aus diesem Grund brauchen alle direkt nachfolgenden Aufrufe weniger Zeit.
 
-Der oben genannte Effekt konnte reproduziert werden, in dem die Applikation neu gestartet wurde.
-Wenn der Prozess für eine Sekunde schlafen gelegt wurde, konnte ebenfalls ein ähnlicher Effekt erzielt werden.
+Der oben genannte Effekt konnte reproduziert werden indem die Applikation neu gestartet wurde.
+Wenn der Prozess für eine Sekunde schlafen gelegt wurde, konnte ein ähnlicher Effekt erzielt werden.
 
 Die Befehle \textit{ROS\_INFO\_STREAM} und \textit{ROS\_INFO} brauchen etwa gleichviel Zeit.
 
-Die Logging Funktion von EEROS blockiert etwas weniger lang.
-Aber auch beim EEROS eigenen Logger tritt das oben genannte Phänomen auf
+Die Logging-Funktion von EEROS blockiert etwas weniger lang.
+Aber auch beim EEROS eigenen Logger tritt das oben genannte Phänomen auf.
 
 \subsubsection{Fazit}
 \begin{itemize}

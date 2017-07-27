@@ -1,13 +1,15 @@
+%TODO ergebnisse zeigen
+
 \chapter{Feature List}
 
 
 \section{Essential Features}
 \subsection{Beschreibung}
-\textit{Essential Features} sind alle Features, die von allen anderen Features benötigt werden.
+\textit{Essential Features} sind alle Features, welche von allen anderen Features benötigt werden.
 
 \subsection{Teilziele}
 \begin{enumerate}
-\item Unabhängiger ROS-Knoten. Ein einfaches Programm meldet sich als ROS-Node im Netzwerk, ohne das der \textit{Catkin-Workspace} verwendet werden muss.
+\item Unabhängiger ROS-Knoten. Ein einfaches Programm meldet sich als ROS-Node im Netzwerk, ohne dass der \textit{Catkin-Workspace} verwendet werden muss.
 \item CMAKE. EEROS wird auch gebaut, wenn ROS nicht installiert ist. Sourcecode mit ROS-Komponenten wird automatisch gebaut, wenn ROS installiert ist.
 \end{enumerate}
 
@@ -25,7 +27,7 @@ Um einen Roboter fernsteuern zu können, soll ein standard-ROS-Knoten, wie etwa 
 \item Einfacher ROS-Knoten. Steuerungsbefehle mit einem einfachen ROS-Knoten wie der \textit{turtle\_teleop\_key}.
 \item Generische \textit{Messages}. Generische \textit{Messages} von einem ROS-Knoten lesen können.
 \item Der Steuerungsbefehl wir über die HAL eingelesen. Die Steuerungsbefehle können als reguläre Inputs im EEROS gelesen werden.
-\item Steuerungsbefehle mit einem generischen Tastatur-Knoten damit eine Steuerung über eine Tastatur möglich ist.
+\item Steuerungsbefehle mit einem generischen Tastatur-Knoten, damit eine Steuerung über eine Tastatur möglich ist.
 \item Steuerungsbefehle mit einem XBox-Controller.
 \end{enumerate}
 
@@ -33,14 +35,13 @@ Um einen Roboter fernsteuern zu können, soll ein standard-ROS-Knoten, wie etwa 
 \section{Logging (Protokollierung)}
 \subsection{Beschreibung}
 Mit \textit{Logging} sind Ausgaben gemeint, die den aktuellen Status der EEROS-Applikation wiedergeben.
-Sie können auch für Fehlermeldungen und Debug-Informationen verwendet werde.
+Sie können auch für Fehlermeldungen und Debug-Informationen verwendet werden.
 
 Das EEROS-Framework hat bereits eine Logger-Funktionalität.
 In der aktuellen EEROS-Version kann der \textit{Loggers}  mit folgenden Zeilen benutzt werden\footnote{http://wiki.eeros.org/tools/logger/start?s[]=log}:
 \lstset{language=C++}
 \begin{lstlisting}
 StreamLogWriter w(std::cout); Logger log(); log.set(w);
-
 log.info() << "Logger Test";
 int a = 298;
 logg.warn() << "a = " << a;
@@ -48,10 +49,10 @@ log.error() << "first line" << endl << "second line";
 \end{lstlisting}
 
 In EEROS erfolgt die Ausgabe des \textit{Loggers} über die Konsole (\textit{StreamLogWriter}) oder in eine Datei (\textit{SysLogWriter}).
-Wenn die Ausgabe auf einem Anderen PC erfolgen soll, z.B. bei einem ferngesteuertem Roboter, kann eine SSH-Verbindung hergestellt werden.
+Wenn die Ausgabe auf einem anderen PC erfolgen soll, z.B. bei einem ferngesteuerten Roboter, kann eine SSH-Verbindung hergestellt werden.
 
 EEROS bietet auch eine Möglichkeit um Informationen im \textit{Control System} zu loggen\footnote{http://wiki.eeros.org/tools/logger\_cs/start}.
-Dabei ist das Problem, dass das \textit{Control System} normalerweise sehr oft (1000 Mal in der Sekunde) ausgeführt wird und den Bildschirm mit Informationen überfluten würde.
+Dabei stellt sich das Problem, dass das \textit{Control System} normalerweise sehr oft (1000 Mal in der Sekunde) ausgeführt wird und den Bildschirm mit Informationen überfluten würde.
 Es existiert aber bereits eine Lösung mit \textit{Periodic Functions}, damit die Daten mit einer viel kleineren Frequenz ausgegeben werden.
 Die Lösung mit den \textit{Periodic Functions} ist aber nicht intuitiv und wird oft, besonders in der Debugging-Phase nicht genutzt und umgangen.
 
@@ -75,13 +76,13 @@ Zusätzlich existieren schon ausgereifte Programme, welche die Ausgaben live fil
 \subsection{Teilziele}
 Dieses Feature hat einen sehr grossen Funktionsumfang und wird deshalb in mehrere Teilziele unterteilt.
 \begin{enumerate}
-\item Bestehender EEROS-Logger umlenken in den ROS-Logger
-\item Bestehender EEROS-Logger umlenken in den ROS-Logger und die \textit{verbosity levels} beibehalten
-\item Bestehender EEROS-Logger erweitern um die \textit{Throttle}-Funktionalität
-\item Bestehender EEROS-Logger erweitern um die \textit{Conditional}-Funktionalität
-\item Bestehender EEROS-Logger erweitern um die \textit{Once}-Funktionalität
-\item Bestehender EEROS-Logger erweitern um die \textit{Filter}-Funktionalität
-\item Bestehender EEROS-Logger erweitern um die \textit{Delayed-Throttle}-Funktionalität
+\item Bestehenden EEROS-Logger umlenken in den ROS-Logger
+\item Bestehenden EEROS-Logger umlenken in den ROS-Logger und die \textit{verbosity levels} beibehalten
+\item Bestehenden EEROS-Logger erweitern um die \textit{Throttle}-Funktionalität
+\item Bestehenden EEROS-Logger erweitern um die \textit{Conditional}-Funktionalität
+\item Bestehenden EEROS-Logger erweitern um die \textit{Once}-Funktionalität
+\item Bestehenden EEROS-Logger erweitern um die \textit{Filter}-Funktionalität
+\item Bestehenden EEROS-Logger erweitern um die \textit{Delayed-Throttle}-Funktionalität
 \end{enumerate}
 
 
@@ -90,23 +91,25 @@ Dieses Feature hat einen sehr grossen Funktionsumfang und wird deshalb in mehrer
 Prozessvariablen sind, im Gegensatz zu den Log-Ausgaben, einzelne Zahlen oder Datenpunkte wie beispielsweise die Position eines Encoders.
 Die Variablen können in einem GUI angezeigt werden.
 Im einfachsten Fall zeigt das GUI die Variablen in einer einfachen Konsole an.
-In vielen Fällen ist es aber auch von Vorteil, wenn eine oder mehrere Variablen in einem Graphen visualisiert werden können.
+In vielen Fällen ist es aber von Vorteil, wenn eine oder mehrere Variablen in einem Graphen visualisiert werden können.
 
 \subsection{Zu erwartende Probleme}
 Bei Prozessvariablen gilt es zu beachten, dass sehr schnell eine grosse Menge von Daten anfallen können.
 Dabei ist nicht nur die Bandbreite ein Problem, sondern auch die Latenz.
-Im konkreten Fall bedeutet dies, dass in einem \textit{Control System} bei jedem Durchlauf innerhalb von sehr kurzer Zeit (typischerweise \unit[1]{s}) neue Daten produziert werden.
-Wenn das ROS-Netzwerk nicht innerhalb von einer Millisekunde die Daten wegschicken kann, kann es sein, dass Daten verloren gehen.
+Im konkreten Fall bedeutet dies, dass in einem \textit{Control System} bei jedem Durchlauf innerhalb von sehr kurzer Zeit (typischerweise \unit[1]{msec}) neue Daten produziert werden.
+Wenn das ROS-Netzwerk nicht innerhalb einer Millisekunde die Daten wegschicken kann, kann es sein, dass Daten verloren gehen.
 
-Eine Lösung für die zu geringe Latenz des ROS-Netzwerk dazu wäre ein Buffer, der den hochfrequenten Datenstrom abfängt und von in längeren Zeitabständen (etwa \unit[0.1]{s} bis \unit[1]{s}) Datenpakete mit den Daten schickt.
+Eine Lösung für die zu geringe Latenz des ROS-Netzwerks wäre ein Buffer, der den hochfrequenten Datenstrom abfängt und in längeren Zeitabständen (etwa \unit[0.1]{s} bis \unit[1]{s}) Datenpakete mit den Daten schickt.
 
-Wenn aber die Bandbreite zu hoch ist, das heist, wenn mehr Daten durch das ROS-Netzwerk geschickt werden, als das Netzwerk übertragen kann, dann reicht ein einfacher Buffer nicht mehr aus.
+%TODO auf performance messungen verweisen dei zeigen, dass das kein problem is
+
+Wenn aber die Bandbreite zu hoch ist, das heisst, wenn mehr Daten durch das ROS-Netzwerk geschickt werden, als das Netzwerk übertragen kann, dann reicht ein einfacher Buffer nicht mehr aus.
 Folgende Techniken könnten das Problem lösen:
 \begin{itemize}
-\item \textbf{Throttle:} Funktioniert wie der Logger mit \textit{Throttle}-Funktionalität. Die meisten Daten werden verworfen und nur jeder x-te Wert wird geschickt
-\item \textbf{Zeitbegrenzter Buffer:} Ein Buffer speichert über eine begrenzte Zeit die Daten und schickt sie dann mit reduzierter Bandbreite über das Netzwerk..
+\item \textbf{Throttle:} Funktioniert wie der Logger mit \textit{Throttle}-Funktionalität. Die meisten Daten werden verworfen und nur jeder x-te Wert wird geschickt.
+\item \textbf{Zeitbegrenzter Buffer:} Ein Buffer speichert über eine begrenzte Zeit die Daten und schickt sie dann mit reduzierter Bandbreite über das Netzwerk.
 \item \textbf{Filter:} Es werden nur Daten gesendet, die eine bestimmte Bedingung erfüllen. Z.B. wenn deren Wert grösser als 10 ist.
-\item \textbf{Statistik:} Für eine gewisse Anzahl von Datenpunkte werden statistische Werte wie z.B. Mittelwert, Minimum und Maximum berechnet. Dem Netzwerk werden nur die berechneten Werte gesendet.
+\item \textbf{Statistik:} Für eine gewisse Anzahl von Datenpunkten werden statistische Werte, wie z.B. Mittelwert, Minimum und Maximum berechnet. Dem Netzwerk werden nur die berechneten Werte gesendet.
 \end{itemize}
 
 \subsection{Teilziele}
@@ -124,7 +127,7 @@ Folgende Techniken könnten das Problem lösen:
 \section{Variablen in EEROS per Fernsteuerung manipulieren}
 %TODO besserer Namen/Beschreibung
 \subsection{Beschreibung}
-Ein EEROS-Roboter hat diverse Konstanten, wie etwa Umrechnungsfaktoren und Offsets, gespeichert, die das Verhalten des Roboters beeinflussen.
+Ein EEROS-Roboter hat diverse Konstanten, wie etwa Umrechnungsfaktoren und Offsets gespeichert, die das Verhalten des Roboters beeinflussen.
 Für die Fehlersuche ist es manchmal von Vorteil, wenn Ausgänge und Konstanten manuell gesetzt werden können.
 
 \subsection{Teilziele}

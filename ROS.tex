@@ -9,7 +9,7 @@
 \end{itemize}
 
 
-\section{Hilfreiche ROS Werkzeuge}
+\section{Hilfreiche ROS-Werkzeuge}
 
 \begin{itemize}
 \item rqt
@@ -20,7 +20,7 @@
 
 \begin{itemize}
 \item Wenn \textit{Messages} von einem \textit{Node} schneller abgefragt werden, als neue \textit{Messages} veröffentlicht werden, dann wird die zuletzt veröffentlichte \textit{Message} mehrmals zurückgegeben.
-\item Wenn \textit{Messages} schneller \textit{published} als abgeholt, dann werden die \textit{Messages} in einem \textit{Buffer}, der sogenannten '\textit{Message Queue}' zwischengespeichert. Die Grösse der \textit{Message Queue} wird definiert, wenn sich ein \textit{Node} (\textit{Publisher} oder \textit{Subscirber}) bei einem \textit{Topic} anmeldet. Der \textit{Publisher} und der \textit{Subscriber} haben zwei unabhängige \textit{Buffer}. Der \textit{Subscriber} erhält immer die älteste, nicht abgeholte \textit{Message} zuerst.
+\item Wenn \textit{Messages} schneller \textit{published} als abgeholt werden, dann werden die \textit{Messages} in einem \textit{Buffer}, der sogenannten '\textit{Message Queue}', zwischengespeichert. Die Grösse der \textit{Message Queue} wird definiert, wenn sich ein \textit{Node} (\textit{Publisher} oder \textit{Subscirber}) bei einem \textit{Topic} anmeldet. Der \textit{Publisher} und der \textit{Subscriber} haben je einen unabhängige \textit{Buffer}. Der \textit{Subscriber} erhält immer die älteste, nicht abgeholte \textit{Message} zuerst.
 \item Ist der \textit{Buffer} voll, dann werden die ältesten \textit{Messages} vom \textit{Publisher} überschrieben.
 \end{itemize}
 

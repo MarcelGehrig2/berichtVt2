@@ -1,7 +1,7 @@
 \chapter{Wiki}
 \section{Einleitung}
 Das folgende Kapitel ist so geschrieben, dass es möglichst einfach in das EEROS-Wiki\footnote{http://wiki.eeros.org/} übernommen werden kann.
-Da das EEROS-Wiki in englischer Sprache geschrieben ist, sind auch die folgenden Kapitel auf englisch verfasst.
+Da das EEROS-Wiki in englischer Sprache geschrieben ist, sind auch die folgenden Kapitel in Englisch verfasst.
 
 
 \section{Hello World!}
@@ -14,15 +14,16 @@ Da das EEROS-Wiki in englischer Sprache geschrieben ist, sind auch die folgenden
 
 \subsection{Configure the toolchain}										%TODO
 To build an EEROS application with ROS, ROS ''kinetic' needs to be installed\footnote{TODO} on the developer machine and the target machine.
-Like for every other ROS application the \textit{setup.sh} script of ROS needs to be executed befor the built application can be started\footnote{TODO}.%TODO anleitung .bashrc
+Before a ROS application can be started, you need to run the \textit{setup.sh} script of ROS.
+The same applies for building the EEROS-library with ROS-support and for building an EEROS-application with ROS-support. %TODO anleitung .bashrc
 
 In EEROS \textit{CMAKE} is used to build an application.
 If the EEROS application has dependencies on ROS, the \textit{setup.sh} script of ROS has to be executed before \textit{CMAKE} is called.
-If an IDE like ''\textit{Qt Creator}'' is used, the software has to be started from terminal.
+If an IDE like ''\textit{Qt Creator}'' is used, the software has to be started from a terminal.
 \textit{CMAKE} will not find the ROS library, if \textit{QT Creator} is launched from a desktop icon.
 
 \subsection{Configure the CMAKE file}
-The following example shows a \textit{CMAKE} file for an simple EEROS application with ROS.
+The following example shows a \textit{CMAKE} file for a simple EEROS application with ROS.
 
 %\lstset{language=cmake}
 \lstset{language=c}

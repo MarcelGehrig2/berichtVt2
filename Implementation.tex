@@ -3,7 +3,7 @@
 
 \section{ROSBlock.hpp}
 %TODO
-Es liegt nahe, in EEROS ein ROS-Block als vererbbare Basis-Klasse zu erstellen.
+Es liegt nahe, in EEROS einen ROS-Block als vererbbare Basis-Klasse zu erstellen.
 So könnten alle notwendigen Initialisierungen in einer Basis-Klasse versteckt werden, ohne das sich ein Applikations-Entwickler damit beschäftigen muss.
 
 Dafür ist es notwendig, dass die \textit{Callback function} bereits in der Basisklasse deklariert wird.
@@ -15,8 +15,8 @@ Das folgende Beispiel zeigt eine mögliche Implementation:
 virtual void rosCallbackFct(const sensor_msgs::Joy& msg)
 \end{lstlisting}
 
-Natürlich kann so eine Implementation nur für einen einzigen Typ von einer ROS-Nachricht genutzt werden.
-Das es aber, wenn man die benutzerdefinierten Nachrichten dazu zählt, eine unbegrenzte Anzahl von verschiedenen Nachrichtentypen gibt, ist diese Lösung nicht brauchbar. %TODO satzbau
+Natürlich kann eine solche Implementation nur für einen einzigen Typen einer ROS-Nachricht genutzt werden.
+Da es aber, wenn man die benutzerdefinierten Nachrichten dazu zählt, eine unbegrenzte Anzahl verschiedener Nachrichtentypen gibt, ist diese Lösung nicht brauchbar. %TODO satzbau
 
 Es liegt nahe den ROS-Block als \textit{Template} zu implementieren.
 ROS stellt eine Funktion zu Verfügung, welche den Typ einer ROS-Nachricht zurückgibt.

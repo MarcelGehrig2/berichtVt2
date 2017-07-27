@@ -9,7 +9,7 @@
 Eine C++-Applikation schreiben, die folgende Eigenschaften erfüllt:
 \begin{enumerate}
 \item Applikation meldet sich als ROS-Knoten an.
-\item Applikation schickt eine \textit{ROS Log Statement}.
+\item Applikation schickt ein \textit{ROS Log Statement}.
 \end{enumerate}
 
 \subsubsection{Testdurchführung}
@@ -24,7 +24,7 @@ Eine C++-Applikation schreiben, die folgende Eigenschaften erfüllt:
 \begin{enumerate}
 \item Den ROS Core mit \textit{\$ roscore} starten.
 \item \textit{\$ rqt\_console} starten.
-\item Mit dem Befehl \textit{\$ rosnode list} 
+\item Mit dem Befehl \textit{\$ rosnode list} überprüfen, welche \textit{Nodes} bereits durch den ROS Core gestartet werden. 
 \item Testapplikation ''\textit{SimpleRosNode\_t1.0}'' starten.
 \item Solange die Applikation läuft, muss bei \textit{\$ rosnode list} ein neuer Node aufgelistet sein. \\
 \textbf{Ergebnis:} \checkmark
@@ -86,7 +86,7 @@ Eine Klasse in EEROS erstellen, die ROS verwendet und den EEROS Quellcode umschr
 
 
 \section{Fernsteuerung}
-\subsection{Einfacher ROS-Knoten}
+\subsection{Topic von \textit{turtle\_teleop\_key} lesen}
 \subsubsection{Zu erfüllende Testbedingungen}
 In EEROS einen Block für das \textit{Control System} erstellen, welcher das \textit{Topic} vom \textit{turtle\_teleop\_key} einlesen kann.
 \begin{itemize}
@@ -123,7 +123,7 @@ In EEROS einen Block für das \textit{Control System} erstellen, welcher das \te
 \end{enumerate}
 
 
-\subsection{Einfacher ROS-Knoten}
+\subsection{Beliebiges Topic lesen}
 \subsubsection{Zu erfüllende Testbedingungen}
 In EEROS einen Block für das \textit{Control System} erstellen, welcher von einer EEROS-Applikation benutzt werden kann, um eine beliebige \textit{ROS Message} von einem beliebigen \textit{ROS Topic} lesen zu können.
 Eine EEROS-Testapplikation soll alle \textit{Messages} ausgeben, welche auf den Testknoten veröffentlicht werden.
@@ -157,7 +157,7 @@ Eine EEROS-Testapplikation soll alle \textit{Messages} ausgeben, welche auf den 
 \item Die \textit{EEROSTestApp\_t4.0} gibt korrekt die \textit{Message} aus, welche sie vom \textit{TestTopic2} empfängt. \\
 \textbf{Ergebnis:} \checkmark
 \item Die \textit{EEROSTestApp\_t4.0} gibt korrekt die \textit{Message} aus, welche sie vom \textit{TestTopic3} empfängt. \\
-\textbf{Ergebnis:} Übersprungen. Kein Mehrwert zum vorherigen Test.
+\textbf{Ergebnis:} Übersprungen. Keinen Mehrwert zum vorherigen Test.
 \end{enumerate}
 
 

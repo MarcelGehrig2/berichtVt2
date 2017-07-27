@@ -4,7 +4,7 @@
 \section{CMAKE}
 \subsection{Erkennen ob ROS installiert ist}
 Diejenigen Teile von EEROS welche ROS-Bibliotheken verwenden, können nur kompiliert werden, wenn ROS auch auf dem System installiert ist.
-CMAKE nutzt dafür den "\textit{find\_package()}-Befehl.
+CMAKE nutzt dafür den \textit{find\_package()}-Befehl.
 \textit{roscpp} ist nur ein  einzelnes \textit{Package} und nicht das ganze ROS-Framework.
 Wenn aber \textit{roscpp} gefunden wird, kann davon ausgegangen werden, dass auch das restliche Framework installiert wurde.
 
@@ -31,6 +31,6 @@ endif()
 
 \subsection{Mögliche Probleme}
 Bevor CMAKE das \textit{Package} finden kann, muss das \textit{Setup-Skript} von ROS ausgeführt werden.
-Üblicher weise kann das Skript mit folgendem Befehl ausgeführt werden:\\
+Üblicherweise kann das Skript mit folgendem Befehl ausgeführt werden:\\
 \textit{\$ source /opt/ros/kinetic/setup.bash}
 
