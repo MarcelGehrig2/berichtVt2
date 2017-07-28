@@ -72,6 +72,72 @@ target_link_libraries(helloWorld eeros ${ROS_LIBRARIES})
 \end{lstlisting}
 
 
+\section{EEROS with blocks as interface}
+\subsection{Introduction}
+%TODO
+%why template -> becaus EEROS matrices are fixed length. With this solution, the dimension of a EEROS matrix can be adjusted in the Control System.
+
+\subsection{Using a ROS block in the Control System}
+%TODO
+
+\subsection{Creating a new ROS subscriber block}
+%TODO verweisen auf konkreten block als beispiel
+
+\textbf{Creating a new Block}
+\label{creatingANewBlock}
+\begin{enumerate}[\hspace{0.5cm}{A}-1]
+\item Include the header file of the ROS message.
+\item Define the type of the ROS message.
+\item Name your block and create the constructor.
+\item Add a new EEROS output for everey datafield you want to read -> see below.
+\end{enumerate}
+
+\textbf{Adding a new data field an an EEROS output}
+\begin{enumerate}[\hspace{0.5cm}{B}-1]
+\item Create EEROS outputs.
+\item Add a 'getOutput()' function for each output.
+\item Set the timestamp of all EEROS signal.
+\item For data fields of variable length use EEROS matrices -> see below.
+\end{enumerate}
+
+\textbf{Adding a new data field of variable length and an EEROS matrix output}
+\begin{enumerate}[\hspace{0.5cm}{C}-1]
+\item Create the template definition. Each EEROS matrix output needs its own type.
+\item Create a 'value' and an 'output' variable for each EEROS matrix output.
+\item Add a 'getOutput()' function for each EEROS matrix output.
+\item Convert the vector of the ROS message to a <double>-vector.
+\item Fill the vector into an EEROS matrix.
+\item Fill the EEROS matrix in a EEROS signal.
+\end{enumerate}
+
+
+\subsection{Creating a new ROS publisher block}
+%TODO einleitung?
+
+\textbf{Creating a new Block}\\
+Identical precure to \ref{creatingANewBlock} ''Creating a new Block'';
+
+\textbf{Adding a new data field an an EEROS input}
+\begin{enumerate}[\hspace{0.5cm}{B}-1]
+\item Create EEROS inputs.
+\item Add a 'getInput()' function for each input.
+\item If available, set time in msg header.
+\item Check if EEROS input is connected. Cast the data. Assign casted data to ROS message field.
+\item For data fields of variable length use EEROS matrices -> see below.
+\end{enumerate}
+
+\textbf{Adding a new data field of variable length and an EEROS matrix input}
+\begin{enumerate}[\hspace{0.5cm}{C}-1]
+\item Create the template definition. Each EEROS matrix input needs its own type.
+\item Create a 'value' and an 'output' variable for each EEROS matrix output.
+\item Add a 'getInput()' function for each EEROS matrix Input.
+\item Check if EEROS input is connected.
+\item Get the vector from the EEROS input.
+\item Cast the vector and assign it to the appropriate ROS data field.
+\end{enumerate}
+
+
+
 \section{EEROS HAL with ROS}
 \subsection{Introduction}
 The wrapper library ''\textit{ros-eeros}'' is used to connect the EEROS HAL with ROS topics.
