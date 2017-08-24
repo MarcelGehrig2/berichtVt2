@@ -1,35 +1,21 @@
-%TODO ergebnisse zeigen
-
 \chapter{Feature List}
+\section{Einleitung}
+In diesem Kapitel werden \textit{Features} beschrieben, die im Rahmen dieser Arbeit implementiert werden können.
+Für alle \textit{Features} wird der Nutzen beschrieben und auch mögliche Probleme identifiziert.
+Die \textit{Features} werden in Teilziele unterteilt und nach Nutzen und geschätztem Arbeitsaufwand bewertet.
+Am Schluss werden alle Teilziele nach dem besten Nutzen-Aufwand Verhältnis sortiert, um die die \textit{Features} zu identifizieren, welche sich am meisten zu implementieren lohnen.
 
 
 \section{Essential Features}
 \subsection{Beschreibung}
-\textit{Essential Features} sind alle Features, welche von allen anderen Features benötigt werden.
-
-\subsection{Teilziele}
-\begin{enumerate}
-\item Unabhängiger ROS-Knoten. Ein einfaches Programm meldet sich als ROS-Node im Netzwerk, ohne dass der \textit{Catkin-Workspace} verwendet werden muss.
-\item CMAKE. EEROS wird auch gebaut, wenn ROS nicht installiert ist. Sourcecode mit ROS-Komponenten wird automatisch gebaut, wenn ROS installiert ist.
-\end{enumerate}
+\textit{Essential Features} sind alle Features, welche von allen anderen Features benötigt werden und grundsätzlich notwendig sind, um EEROS mit ROS zu verwenden.
 
 
-\section{Fernsteuerung und lesen von ROS-Topics}
+\section{Daten über einen ROS-Knoten empfangen}
 \subsection{Beschreibung}
-%TODO
-Ein Roboter mit EEROS kann über ROS ferngesteuert werden.
-Dafür muss EEROS im \textit{Control System} Daten von einem \textit{ROS-Topic} lesen können.
-Um einen Roboter fernsteuern zu können, soll ein standard-ROS-Knoten, wie etwa 'joy'-Packet\footnote{http://wiki.ros.org/joy} verwendet werden.
-%nur als input
-
-\subsection{Teilziele}
-\begin{enumerate}
-\item Einfacher ROS-Knoten. Steuerungsbefehle mit einem einfachen ROS-Knoten wie der \textit{turtle\_teleop\_key}.
-\item Generische \textit{Messages}. Generische \textit{Messages} von einem ROS-Knoten lesen können.
-\item Der Steuerungsbefehl wir über die HAL eingelesen. Die Steuerungsbefehle können als reguläre Inputs im EEROS gelesen werden.
-\item Steuerungsbefehle mit einem generischen Tastatur-Knoten, damit eine Steuerung über eine Tastatur möglich ist.
-\item Steuerungsbefehle mit einem XBox-Controller.
-\end{enumerate}
+Eine EEROS-Applikation soll Daten von diversen Quellen über einen ROS-Knoten empfangen können.
+Mögliche Quellen sind Sensoren (Microsoft Kinect) oder Steuerungsbefehle.
+Die Steuerungsbefehle sollen über eine GUI, eine Tastatur oder einen XBox-Controller\footnote{siehe dazu 'joy'\_packet http://wiki.ros.org/joy} gesendet werden können.
 
 
 \section{Logging (Protokollierung)}
@@ -70,20 +56,16 @@ Weitere Funktionen sind noch:
 Wie auch EEROS hat ROS verschiedene \textit{verbosity levels} um Debug-Informationen von normalen Informationen, Warnungen und Fehlern zu unterscheiden.
 
 Ein weiterer Vorteil bei ROS ist, dass die Ausgaben irgendwo im ROS-Netzwerk, also auch auf einem anderen PC, gelesen und in eine Datei gespeichert werden können.
-Zusätzlich existieren schon ausgereifte Programme, welche die Ausgaben live filtern, farblich hervorheben und ausgeben können. 
-%TODO BILD
+Zusätzlich existieren schon ausgereifte Programme, welche die Ausgaben live filtern, farblich hervorheben und ausgeben können.
+\textit{rqt\_console} ist ein solches Programm, dass auch schon standardmässig mit ROS installiert wird.
+In Bild \ref{fig:rqtConsole} ist ein Screenshot von \textit{rqt\_console} zu sehen.
 
-\subsection{Teilziele}
-Dieses Feature hat einen sehr grossen Funktionsumfang und wird deshalb in mehrere Teilziele unterteilt.
-\begin{enumerate}
-\item Bestehenden EEROS-Logger umlenken in den ROS-Logger
-\item Bestehenden EEROS-Logger umlenken in den ROS-Logger und die \textit{verbosity levels} beibehalten
-\item Bestehenden EEROS-Logger erweitern um die \textit{Throttle}-Funktionalität
-\item Bestehenden EEROS-Logger erweitern um die \textit{Conditional}-Funktionalität
-\item Bestehenden EEROS-Logger erweitern um die \textit{Once}-Funktionalität
-\item Bestehenden EEROS-Logger erweitern um die \textit{Filter}-Funktionalität
-\item Bestehenden EEROS-Logger erweitern um die \textit{Delayed-Throttle}-Funktionalität
-\end{enumerate}
+\begin{figure}[!ht]
+\centering
+\includegraphics[angle=0,width=\textwidth]{images/screenshotRqtConsole.png}
+\caption{\textit{rqt\_console} ist ein ROS-Tool, um Log-Nachrichten darzustellen und zu filtern}
+\label{fig:rqtConsole}
+\end{figure}
 
 
 \section{Anzeige von Prozessvariablen}
@@ -112,37 +94,42 @@ Folgende Techniken könnten das Problem lösen:
 \item \textbf{Statistik:} Für eine gewisse Anzahl von Datenpunkten werden statistische Werte, wie z.B. Mittelwert, Minimum und Maximum berechnet. Dem Netzwerk werden nur die berechneten Werte gesendet.
 \end{itemize}
 
-\subsection{Teilziele}
-\begin{enumerate}
-\item Anzeige von Daten in einer Konsole (über das ROS-Netzwerk)
-\item Anzeige von Daten in einem Diagramm (bestehende ROS-Tools)
-\item Anzeige in Gazebo
-\item Throttle
-\item Zeitbegrenzter Buffer
-\item Filter
-\item Statistik
-\end{enumerate}
 
-
-\section{Variablen in EEROS per Fernsteuerung manipulieren}
-%TODO besserer Namen/Beschreibung
+\section{Simulation mit Gazebo}
 \subsection{Beschreibung}
-Ein EEROS-Roboter hat diverse Konstanten, wie etwa Umrechnungsfaktoren und Offsets gespeichert, die das Verhalten des Roboters beeinflussen.
-Für die Fehlersuche ist es manchmal von Vorteil, wenn Ausgänge und Konstanten manuell gesetzt werden können.
+\textit{Gazebo} ist eine Simulationssoftware für Roboter.
+Wenn der physikalische Roboter von \textit{Gazebo} simuliert wird, dann kann die EEROS-Applikation getestet werden, ohne dass die Hardware vorhanden sein muss.
+Nachdem die Applikation und die Regelung mit der Simulation getestet und verfeinert wurde, kann sie auf dem Richtigen Roboter getestet werden.
 
-\subsection{Teilziele}
-\begin{enumerate}
-\item Ausgänge ferngesteuert setzen.
-\item Konstanten ferngesteuert setzen.
-\end{enumerate}
+Idealerweise wird wird dafür die HAL von EEROS genutzt.
+So muss nur die Konfigurationsdatei der HAL angepasst werden, wenn von der Simulation zur richtigen Hardware gewechselt wird.
+
+\subsection{Zu erwartende Probleme}
+Eine Simulation muss nicht in Echtzeit erfolgen.
+Wenn es eine komplexere Simulation ist, oder wenn die Simulation visualisiert werden soll, dann ist der Rechner oft zu langsam, um die Simulation in Echtzeit zu rechnen.
+Die Kommunikation mit ROS ist ebenfalls nicht echtzeitfähig.
+
+Eine Simulation von einem dynamischen System ist aber stark abhängig von der Zeit.
+Es muss also sicher gestellt werden, das die Simulation und auch die EEROS-Applikation mit der richtigen Zeit rechnet, damit auch Regler getestet werden können.
+Zusätzlich muss sicher gestellt werden, dass die Simulation und die Applikation abwechselnd rechnen, um \textit{Race Conditions} zu vermeiden.
 
 
 \section{Bewertung der verschiedenen Features und Teilziele}
 \subsection{Beschreibung des Punktesystems}
-%TODO beschreiben punktesystem
-%TODO essential features
+In Tabelle \ref{Bewertungstabelle} werden alle oben genannten Features werden in Teilziele aufgeteilt und deren Nutzen und Aufwand mit einem Wert zwischen 0 und 10 bewertet.
+Die Punkte für jedes Teilziel werden berechnet, in dem der Nutzen durch den Aufwand dividiert wird.
+Mit dieser Methode sollen diejenigen Teilziele gefunden werden, die mit möglichst kleinem Aufwand einen möglichst grossen Nutzen bringen..
+
+In der Tabelle \ref{BewertungstabelleSortiert} sind alle Teilziele nach dem Punktewert sortiert.
+Nur die \textit{Essential Features} bilden eine Ausnahme, da sie von allen anderen Features benötigt werden.
+Deshalb sind sie an erster Stelle.
+
+Alle Features werden dann der Reihe nach implementiert.
+Sollte im Rahmen dieser Arbeit nicht genügend Zeit vorhanden sein um alle Teilziele zu implementieren, dann werden die Teilziele ganz unten, also die mit dem schlechtesten Nutzen-Aufwand Verhältnis, nicht implementiert.
+
 
 \subsection{Bewertungstabelle}
+\label{Bewertungstabelle}
 \begin{tabular}
   { l								| l			 								l			 l			 l }
   \textbf{Feature}					& \textbf{Teilziel}	& \textbf{Nutzen}	& \textbf{Aufwand}	& \textbf{Punkte}	\\ \hline
@@ -150,28 +137,61 @@ Für die Fehlersuche ist es manchmal von Vorteil, wenn Ausgänge und Konstanten 
 % Feature							  Teilziel   								Nutzen      Aufwand     Punkte
   Essential							& 1. Unabhängiger ROS-Knoten				& 10		& 3			& 3.3		\\
   									& 2. CMAKE									& 10		& 4			& 2.5		\\ \hline
-  Fernsteuerung						& 1. Einfacher ROS-Knoten					& 8			& 3			& 2.7		\\
+  Daten empfangen					& 1. Einfacher ROS-Knoten					& 8			& 3			& 2.7		\\
   									& 2. Generischer ROS-Knoten					& 8			& 4			& 2.0		\\
   									& 3. HAL									& 8			& 7			& 1.1		\\
   									& 4. Generischer Tastaturknoten				& 7			& 5			& 1.4		\\ 
   									& 4. XBox-Controller						& 7			& 5			& 1.4		\\ \hline
-  Logging 							& 1. EEROS-Logger umlenken					& 8			& 4			& 2.0		\\
-  									& 2. \textit{Verbosity levels} beibehalten	& 7			& 5			& 1.4		\\
-  									& 3. \textit{Throttle}-Funktionalität		& 8			& 6			& 1.3		\\
-  									& 4. \textit{Conditional}-Funktionalität 	& 4			& 3			& 1.3		\\
-  									& 5. \textit{Once}-Funktionalität			& 4			& 3			& 1.3		\\
-  									& 6. \textit{Filter}-Funktionalität			& 3			& 3			& 1.0		\\
-  									& 7. \textit{Delayed-Throttle}-Funkt.		& 3			& 3			& 1.0		\\ \hline
-  Anzeige von Prozessvar.			& 1. Konsolenausgabe 						& 8			& 5			& 1.6		\\
+  Daten senden						& 1. Konsolenausgabe 						& 8			& 5			& 1.6		\\
   									& 2. Diagramm								& 8			& 6			& 1.3		\\
-  									& 3. Gazebo									& 4			& 9			& 0.4		\\
+  									& 3. Gazebo									& 10		& 8			& 1.3		\\
   									& 4. Throttle-Funktion						& 8			& 6			& 1.3		\\
   									& 5. Zeitbegrenzter Buffer					& 6			& 6			& 1.0		\\
   									& 6. Filter									& 6			& 6			& 1.0		\\
   									& 7. Statistik								& 7			& 7			& 1.0		\\ \hline
-  Manipulieren von Prozessvar.		& 1. Ausgänge setzen						& 8			& 4			& 2.0		\\
-  									& 2. Konstanten setzen						& 6			& 4			& 1.5		\\ \hline
+  Logging 							& 1. EEROS-Logger umlenken					& 4			& 4			& 1.0		\\
+  									& 2. \textit{Verbosity levels} beibehalten	& 2			& 5			& 0.4		\\
+  									& 3. \textit{Throttle}-Funktionalität		& 4			& 6			& 0.7		\\
+  									& 4. \textit{Conditional}-Funktionalität 	& 3			& 3			& 1.0		\\
+  									& 5. \textit{Once}-Funktionalität			& 3			& 3			& 1.0		\\
+  									& 6. \textit{Filter}-Funktionalität			& 1			& 3			& 0.3		\\
+  									& 7. \textit{Delayed-Throttle}-Funkt.		& 1			& 3			& 0.3		\\ \hline
+%  Manipulieren von Prozessvar.		& 1. Ausgänge setzen						& 8			& 4			& 2.0		\\
+%  									& 2. Konstanten setzen						& 6			& 4			& 1.5		\\ \hline
+  Simulation mit Gazebo				& 1. Einfacher PI Regler					& 8			& 5			& 1.6		\\
+  									& 2. Korrekter Zeitstempel und Sync.		& 9			& 6			& 1.5		\\ \hline
 \end{tabular}
 
-\subsection{Auswertung}
-%TODO Auswertung
+\subsection{Bewertungstabelle sortiert}
+\label{BewertungstabelleSortiert}
+\begin{tabular}
+  { l								| l			 								l			 l			 l 		l}
+  \textbf{Feature}					& \textbf{Teilziel}	& \textbf{Nutzen}	& \textbf{Aufwand}	& \textbf{Punkte}	& \textbf{Impl.}	\\ \hline
+  
+% Feature							  Teilziel   							Nutzen      Aufwand     Punkte
+  Essential							& Unabhängiger ROS-Knoten				& 10		& 3			& 3.3	&\cmark	\\
+  Essential							& CMAKE									& 10		& 4			& 2.5	&\cmark	\\ 
+  Daten empfangen					& Einfacher ROS-Knoten					& 8			& 3			& 2.7	&\cmark	\\
+  Daten empfangen					& Generischer ROS-Knoten				& 8			& 4			& 2.0	&\cmark	\\
+  Daten senden						& Konsolenausgabe 						& 8			& 5			& 1.6	&\cmark	\\
+  Simulation mit Gazebo				& Einfacher PI Regler					& 8			& 5			& 1.6	&\cmark	\\ 
+  Simulation mit Gazebo				& Korrekter Zeitstempel und Sync.		& 9			& 6			& 1.5	&\cmark	\\
+  Daten empfangen					& Generischer Tastaturknoten			& 7			& 5			& 1.4	&\cmark	\\ 
+  Daten empfangen					& XBox-Controller						& 7			& 5			& 1.4	&\xmark	\\ 
+  Daten senden						& Diagramm								& 8			& 6			& 1.3	&\cmark	\\
+  Daten senden						& Gazebo								& 10		& 8			& 1.3	&\cmark	\\
+  Daten senden						& Throttle-Funktion						& 8			& 6			& 1.3	&\xmark	\\
+  Daten empfangen					& HAL									& 8			& 7			& 1.1	&\cmark	\\
+  Daten senden						& Zeitbegrenzter Buffer					& 6			& 6			& 1.0	&\xmark	\\
+  Daten senden						& Filter								& 6			& 6			& 1.0	&\xmark	\\
+  Daten senden						& Statistik								& 7			& 7			& 1.0	&\xmark	\\ 
+  Logging 							& EEROS-Logger umlenken					& 4			& 4			& 1.0	&\xmark	\\
+  Logging							& \textit{Conditional}-Funktionalität 	& 3			& 3			& 1.0	&\xmark	\\
+  Logging							& \textit{Once}-Funktionalität			& 3			& 3			& 1.0	&\xmark	\\
+  Logging							& \textit{Throttle}-Funktionalität		& 4			& 6			& 0.7	&\xmark	\\
+  Logging							& \textit{Verbosity levels} beibehalten	& 2			& 5			& 0.4	&\xmark	\\
+  Logging							& \textit{Filter}-Funktionalität		& 1			& 3			& 0.3	&\xmark	\\
+  Logging							& \textit{Delayed-Throttle}-Funkt.		& 1			& 3			& 0.3	&\xmark	\\ 
+%  Manipulieren von Prozessvar.		& Ausgänge setzen						& 8			& 4			& 2.0	&\xmark	\\
+%  Manipulieren von Prozessvar.		& Konstanten setzen						& 6			& 4			& 1.5	&\xmark	\\ 
+\end{tabular}

@@ -1,14 +1,41 @@
 
-\chapter*{Zusammenfassung}
-Im Auftrag des Industriepartner Variosystems wurde ein kostengünstiger, auf dem BeagleBone Black basierter Platinencomputer entwickelt. Der BeagleBone Black, im weiteren Text als BBB bezeichnet, ist ein vollständiger Computer für Linux-basierte Betriebssysteme. Standardmässig wird es mit dem Betriebssystem Debian ausgeliefert, welches für diese BA ebenfalls benutzt wird. Im Verlauf dieser Arbeit wurden insgesamt 5 Exemplare hergestellt, die alle bei Variosystems bestückt wurden. Mit einem Cape, einer aufsteckbaren Platine für den BBB, wurde der Computer mit WLAN, Bluetooth Low-Energy, GSM/GPRS und einem Touchscreen ergänzt. Dieses Cape ist nicht nur mit dem von uns gebauten BBB-Derivat kompatibel, sondern auch mit dem kommerziell erhältlichen, originalen BBB. Die Kombination des BBB mit dem Cape wird im Folgenden Communication-Bone, oder kurz ComBone genant. Der Name ist eine Wortkombination des englischen Wortes "Communication" \ für die Kommunikationsfähigkeit des Capes über verschiedene Kanäle, sowie dem Wort "Bone", welches bereits im Namen des originalen BBB genutzt wird.
+\chapter*{Kurzfassung}
+In dieser Arbeit wird vorgestellt, wie eine EEROS Applikation in einem ROS Netzwerk eingebunden werden kann und wie bestehende ROS Werkzeuge genutzt werden können, um EEROS Applikationen zu erweitern.
 
-Bei der Entwicklung der Hard- und Software ist darauf geachtet worden, dass die einzelnen Funktionen möglichst modular sind. Wenn bestimmte Funktionen nicht benötigt werden, wie zum Beispiel der HDMI Anschluss des BBB oder die WLAN-Funktion des Capes, können die entsprechenden Bauteile bei der Produktion einfach nicht bestückt werden. Dies kann, besonders bei grösseren Stückzahlen, viel Geld sparen. Des Weiteren können auch einige Module, beziehungsweise Funktionen, einfach kopiert und in anderen Projekten verwendet werden.
+EEROS ist ein Roboter-Framework, dass an der NTB entwickelt wird.
+Es konzentriert sich aber im Gegensatz zu ROS nicht darauf, mehrere Komponenten von einem Roboter-System in einem Netzerk zu verbinden.
+Die grosse Stärke von EEROS ist die Echtzeitfähigkeit.
+In EEROS können komplexe Kinematiken abgebildet und in Echtzeit geregelt werden.
+Da ROS nicht echtzeitfähig ist, können Regler in ROS nicht gerechnet werden.
+EEROS schliesst diese Lücke.
 
-Ein möglicher Einsatzbereich dieses Computers mit dem Cape ist die Verbindung von einem Gerät, wie etwa ein Sensor oder ein abgelegener Stromgenerator, mit dem Internet. Der ComBone kann sich mit einer LAN-Verbindung, mit WLAN oder über das mobile GSM Netz, wie es auch ein Mobiltelefon verwendet, ins Internet einwählen. Dies macht den ComBone zu einem  hochflexibles Gerät, welches diverse Einsatzmöglichkeiten hat.
+ROS, oder Robot Operating System, ist ein Set von Softwarebibliotheken und Werkzeugen um Roboteranwendungen zu schreiben.
+Ein ROS Netzwerk besteht aus diversen Knoten.
+Jeder Knoten kann ein Sensor, ein Aktor, ein Datenverarbeitungsknoten oder eine Simulation (Gazebo) darstellen.
+Es besteht aus dem Kern und mehreren Packages, die das Framework erweitern können.
+Die Packages sind oft frei erhältlich und erlauben es, diverse Hardware mit einem standardisiertem Protokoll ansprechen zu können.
+Eine grosse Community entwickelt nicht nur den Kern von ROS immer weiter, sondern veröffentlicht auch immer neue Packages um die Funktionalität von ROS zu erweitern.
+
+In dieser Arbeit wird EEROS erweitert, damit zukünftige EEROS Applikationen mühelos in ein ROS Netzwerk eingebunden werden können.
+Dabei wurde speziell darauf geachtet, dass EEROS Applikationen auch mit Gazebo Simulationen verbunden werden können, um die Applikation oder Regelung testen zu können.
+Mit den in dieser Arbeit entwickelten Erweiterungen können EEROS Applikationen zukünftig Daten von ROS-Knoten lesen, Daten an ROS-Knoten schicken und mit einer Gazbeo Simulation können EEROS Applikationen getestet werden, ohne dass die Hardware des Roboters vorhanden sein muss.
+Zusätzlich kann das ROS Netzwerk und ROS Werkzeuge neu auch genutzt werden, um lückenlos Daten von EEROS Signalen aufzeichnen und visualisieren zu können.
+
+
+
+%The Robot Operating System (ROS) is a set of software libraries and tools that help you build robot applications. From drivers to state-of-the-art algorithms, and with powerful developer tools, ROS has what you need for your next robotics project. And it's all open source.
+
+
+
+%Im Auftrag des Industriepartner Variosystems wurde ein kostengünstiger, auf dem BeagleBone Black basierter Platinencomputer entwickelt. Der BeagleBone Black, im weiteren Text als BBB bezeichnet, ist ein vollständiger Computer für Linux-basierte Betriebssysteme. Standardmässig wird es mit dem Betriebssystem Debian ausgeliefert, welches für diese BA ebenfalls benutzt wird. Im Verlauf dieser Arbeit wurden insgesamt 5 Exemplare hergestellt, die alle bei Variosystems bestückt wurden. Mit einem Cape, einer aufsteckbaren Platine für den BBB, wurde der Computer mit WLAN, Bluetooth Low-Energy, GSM/GPRS und einem Touchscreen ergänzt. Dieses Cape ist nicht nur mit dem von uns gebauten BBB-Derivat kompatibel, sondern auch mit dem kommerziell erhältlichen, originalen BBB. Die Kombination des BBB mit dem Cape wird im Folgenden Communication-Bone, oder kurz ComBone genant. Der Name ist eine Wortkombination des englischen Wortes "Communication" \ für die Kommunikationsfähigkeit des Capes über verschiedene Kanäle, sowie dem Wort "Bone", welches bereits im Namen des originalen BBB genutzt wird.
+%
+%Bei der Entwicklung der Hard- und Software ist darauf geachtet worden, dass die einzelnen Funktionen möglichst modular sind. Wenn bestimmte Funktionen nicht benötigt werden, wie zum Beispiel der HDMI Anschluss des BBB oder die WLAN-Funktion des Capes, können die entsprechenden Bauteile bei der Produktion einfach nicht bestückt werden. Dies kann, besonders bei grösseren Stückzahlen, viel Geld sparen. Des Weiteren können auch einige Module, beziehungsweise Funktionen, einfach kopiert und in anderen Projekten verwendet werden.
+%
+%Ein möglicher Einsatzbereich dieses Computers mit dem Cape ist die Verbindung von einem Gerät, wie etwa ein Sensor oder ein abgelegener Stromgenerator, mit dem Internet. Der ComBone kann sich mit einer LAN-Verbindung, mit WLAN oder über das mobile GSM Netz, wie es auch ein Mobiltelefon verwendet, ins Internet einwählen. Dies macht den ComBone zu einem  hochflexibles Gerät, welches diverse Einsatzmöglichkeiten hat.
 
 
 
 
 
-\section*{Abstract}
+%\section*{Abstract}
 %TODO Englischübersetzung

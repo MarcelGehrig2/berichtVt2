@@ -11,12 +11,14 @@
 	\renewcommand{\bibname}{Quellenverzeichnis}
 %	\include{Titelseite}
 %	\newpage
-%	\include{Zusammenfassung}
+	\include{Zusammenfassung}
+	
 	\newpage
 	\makeatletter
 	\addtocontents{toc}{\protect\thispagestyle{scrheadings}}
 	\renewcommand{\tableofcontents}{\section*{\contentsname} \pagestyle{scrheadings} \@starttoc{toc}}
 	\makeatother
+	\setcounter{tocdepth}{1}
 	\tableofcontents
 	\newpage
 	\renewcommand{\thepage}{\arabic{page}}

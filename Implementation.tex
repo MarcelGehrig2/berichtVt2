@@ -18,7 +18,7 @@ virtual void rosCallbackFct(const sensor_msgs::Joy& msg)
 Natürlich kann eine solche Implementation nur für einen einzigen Typen einer ROS-Nachricht genutzt werden.
 Da es aber, wenn man die benutzerdefinierten Nachrichten dazu zählt, eine unbegrenzte Anzahl verschiedener Nachrichtentypen gibt, ist diese Lösung nicht brauchbar. %TODO satzbau
 
-Es liegt nahe den ROS-Block als \textit{Template} zu implementieren.
+Es liegt ebenfalls nahe den ROS-Block als \textit{Template} zu implementieren.
 ROS stellt eine Funktion zu Verfügung, welche den Typ einer ROS-Nachricht zurückgibt.
 So könnte man einen benutzerdefinierten Block, abgeleitet vom ROS-Block, mit Hilfe vom Typ der ROS-Nachricht deklarieren:
 

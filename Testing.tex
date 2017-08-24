@@ -1,7 +1,12 @@
+%TODO a lot
+
 \chapter{Testing}
 \section{Einleitung}
-%TODO beschreibung
-%TODO repos benamsen
+In diesem Kapitel wird für jedes Teilziel zuerst ein Testprozedere beschrieben.
+Das Teilziel wird dann implementiert und in den Kapitel %TODO in welchen Kapitel?? %TODO
+dokumentiert.
+Das fertig implementierte \textit{Feature} wird dann mit dem anfangs aufgeschriebenen Testprozedere getestet und evt. korrigiert.
+
 
 \section{Tests für ''Essential Features''}
 \subsection{Unabhängiger ROS-Knoten}
@@ -85,8 +90,8 @@ Eine Klasse in EEROS erstellen, die ROS verwendet und den EEROS Quellcode umschr
 
 
 
-\section{Fernsteuerung}
-\subsection{Topic von \textit{turtle\_teleop\_key} lesen}
+\section{Daten empfangen}
+\subsection{Einfacher ROS-Knoten}
 \subsubsection{Zu erfüllende Testbedingungen}
 In EEROS einen Block für das \textit{Control System} erstellen, welcher das \textit{Topic} vom \textit{turtle\_teleop\_key} einlesen kann.
 \begin{itemize}
@@ -109,21 +114,21 @@ In EEROS einen Block für das \textit{Control System} erstellen, welcher das \te
 \item Testapplikation ''\textit{EEROSTestApp\_t3.0}'' in einem neuen Terminal starten.
 \item Den \textit{Turtlesim} Knoten mit \textit{\$ rosrun turtlesim turtle\_teleop\_key} starten.
 \item Für die vier Pfeiltaste muss beim Terminal von der Testapplikation eine entsprechende Ausgabe erscheinen. \\
-\textbf{Ergebnis:} \checkmark
+\textbf{Ergebnis:} \cmark
 \item Beide Applikationen beenden.
 \item Den \textit{Turtlesim} Knoten mit \textit{\$ rosrun turtlesim turtle\_teleop\_key} starten.
 \item Testapplikation ''\textit{EEROSTestApp\_t3.0}'' in einem neuen Terminal starten.
 \item Das Teminal mit dem \textit{Turtlesim} Knoten anwählen.
 \item Für die vier Pfeiltaste muss beim Terminal von der Testapplikation eine entsprechende Ausgabe erscheinen. \\
-\textbf{Ergebnis:} \checkmark
+\textbf{Ergebnis:} \cmark
 \item Den \textit{Turtlesim} Knoten beenden.
 \item Den \textit{Turtlesim} Knoten mit \textit{\$ rosrun turtlesim turtle\_teleop\_key} neu starten.
 \item Für die vier Pfeiltaste muss beim Terminal von der Testapplikation eine entsprechende Ausgabe erscheinen. \\
-\textbf{Ergebnis:} \checkmark
+\textbf{Ergebnis:} \cmark
 \end{enumerate}
 
 
-\subsection{Beliebiges Topic lesen}
+\subsection{Generischer ROS-Knoten}
 \subsubsection{Zu erfüllende Testbedingungen}
 In EEROS einen Block für das \textit{Control System} erstellen, welcher von einer EEROS-Applikation benutzt werden kann, um eine beliebige \textit{ROS Message} von einem beliebigen \textit{ROS Topic} lesen zu können.
 Eine EEROS-Testapplikation soll alle \textit{Messages} ausgeben, welche auf den Testknoten veröffentlicht werden.
@@ -153,9 +158,9 @@ Eine EEROS-Testapplikation soll alle \textit{Messages} ausgeben, welche auf den 
   \item TestTopic3:	sensor\_msgs/LaserScan Message
   \end{itemize}
 \item Die \textit{EEROSTestApp\_t4.0} gibt korrekt die \textit{Message} aus, welche sie vom \textit{TestTopic1} empfängt. \\
-\textbf{Ergebnis:} \checkmark
+\textbf{Ergebnis:} \cmark
 \item Die \textit{EEROSTestApp\_t4.0} gibt korrekt die \textit{Message} aus, welche sie vom \textit{TestTopic2} empfängt. \\
-\textbf{Ergebnis:} \checkmark
+\textbf{Ergebnis:} \cmark
 \item Die \textit{EEROSTestApp\_t4.0} gibt korrekt die \textit{Message} aus, welche sie vom \textit{TestTopic3} empfängt. \\
 \textbf{Ergebnis:} Übersprungen. Keinen Mehrwert zum vorherigen Test.
 \end{enumerate}
@@ -177,5 +182,5 @@ Eine EEROS-Testapplikation soll alle \textit{Messages} ausgeben, welche auf den 
 %\textbf{Ablauf: } \\
 %\begin{enumerate}
 %\item 
-%%\textbf{Ergebnis:} \checkmark
+%%\textbf{Ergebnis:} \cmark
 %\end{enumerate}

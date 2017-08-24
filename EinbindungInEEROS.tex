@@ -13,10 +13,13 @@ Wenn aber \textit{roscpp} gefunden wird, kann davon ausgegangen werden, dass auc
 \begin{lstlisting}
 ## ROS	
 ## ////////////////////////////////////////////////////////////////////////
+message( STATUS "ROS_ROOT: " $ENV{ROS_ROOT} )
 message(STATUS "looking for package 'ROS'")
 find_package( roslib REQUIRED )
 if (roslib_FOUND)
 	message( STATUS "-> ROS found")
+	add_definitions(-DROS_FOUND)
+	set( ROS_FOUND true)
 	include_directories( "${roslib_INCLUDE_DIRS}" )
 	message( STATUS "roslib_INCLUDE_DIRS: " ${roslib_INCLUDE_DIRS} )
 	list(APPEND ROS_LIBRARIES "${roslib_LIBRARIES}")
@@ -24,6 +27,8 @@ if (roslib_FOUND)
 	list(APPEND ROS_LIBRARIES "${rosconsole_LIBRARIES}")
 	find_package( roscpp REQUIRED )
 	list(APPEND ROS_LIBRARIES "${roscpp_LIBRARIES}")
+
+	list(APPEND EXTERNAL_LIBS "${ROS_LIBRARIES}")
 else()
 	message( STATUS "-> ROS NOT found")
 endif()
