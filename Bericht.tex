@@ -1,7 +1,7 @@
 \input{header}
 %%Grosser Zeilenabstand für Korrektur
-% \usepackage{setspace}
-% \linespread{2}
+ \usepackage{setspace}
+ \linespread{2}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 % Dokument              %
@@ -9,7 +9,7 @@
 \begin{document}
 	\renewcommand{\thepage}{\roman{page}}
 	\renewcommand{\bibname}{Quellenverzeichnis}
-%	\include{Titelseite}
+	\include{Titelseite}
 %	\newpage
 	\include{Zusammenfassung}
 	
@@ -33,7 +33,9 @@
 	\include{ROS}
 	\include{Wiki}
 	\include{Problembehebung}
-	\include{Zeugs}
+%	\include{Zeugs}
+	
+	\include{Fazit}
 %	
 %	\include{Glossar}
 %	\include{Quellen}
@@ -68,7 +70,7 @@
 	    \renewcommand{\section}[1]{\oldsection{#1}\resetpage}
 
 
-%		\input{Anhang_fachmodulbericht}
+		\input{Anhang}
 %		\input{Anhang_Elektronik}
 %
 	\end{nosectionintoc}
