@@ -1,15 +1,16 @@
 \chapter{Feature List}
 \label{chapter:featureList}
 \section{Einleitung}
-In diesem Kapitel werden \textit{Features} beschrieben, die im Rahmen dieser Arbeit implementiert werden können.
+In diesem Kapitel werden \textit{Features} beschrieben, die im Rahmen dieser Arbeit implementiert werden sollen.
 Für alle \textit{Features} wird der Nutzen beschrieben und auch mögliche Probleme identifiziert.
 Die \textit{Features} werden in Teilziele unterteilt und nach Nutzen und geschätztem Arbeitsaufwand bewertet.
-Am Schluss werden alle Teilziele nach dem besten Nutzen-Aufwand Verhältnis sortiert, um die die \textit{Features} zu identifizieren, welche sich am meisten zu implementieren lohnen.
+Am Schluss werden alle Teilziele nach dem besten Nutzen-Aufwand-Verhältnis sortiert, um die die \textit{Features} zu identifizieren, welche sich am meisten zu implementieren lohnen.
 
 
 \section{Essential Features}
 \subsection{Beschreibung}
 \textit{Essential Features} sind alle Features, welche von allen anderen Features benötigt werden und grundsätzlich notwendig sind, um EEROS mit ROS zu verwenden.
+Diese Features sind notwendig, dass eine EEROS-Applikation überhaupt als unabhängiger ROS-Knoten funktionieren kann.
 
 
 \section{Daten über einen ROS-Knoten empfangen}
@@ -39,12 +40,12 @@ In EEROS erfolgt die Ausgabe des \textit{Loggers} über die Konsole (\textit{Str
 Wenn die Ausgabe auf einem anderen PC erfolgen soll, z.B. bei einem ferngesteuerten Roboter, kann eine SSH-Verbindung hergestellt werden.
 
 EEROS bietet auch eine Möglichkeit um Informationen im \textit{Control System} zu loggen\footnote{http://wiki.eeros.org/tools/logger\_cs/start}.
-Dabei stellt sich das Problem, dass das \textit{Control System} normalerweise sehr oft (1000 Mal in der Sekunde) ausgeführt wird und den Bildschirm mit Informationen überfluten würde.
+Dabei stellt sich das Problem, dass das \textit{Control System} normalerweise sehr oft (1000 mal in der Sekunde) ausgeführt wird und den Bildschirm mit Informationen überfluten würde.
 Es existiert aber bereits eine Lösung mit \textit{Periodic Functions}, damit die Daten mit einer viel kleineren Frequenz ausgegeben werden.
 Die Lösung mit den \textit{Periodic Functions} ist aber nicht intuitiv und wird oft, besonders in der Debugging-Phase nicht genutzt und umgangen.
 
 ROS hat mit der \textit{ROS console}\footnote{http://wiki.ros.org/rosconsole} eine ausgereifte Logging-Funktion integriert.
-Mit der \textit{Throttle-Funktion} (\texttt{ROS\_DEBUG\_THROTTLE(period, ...)} bietet ROS eine sehr bequeme Möglichkeit, um eine Information nur einmal in einem bestimmten Zeitraum auszugeben.
+Mit der \textit{Throttle-Funktion} \texttt{ROS\_DEBUG\_THROTTLE(period, ...)} bietet ROS eine sehr bequeme Möglichkeit, um eine Information nur einmal in einem bestimmten Zeitraum auszugeben.
 Weitere Funktionen sind noch:
 
 \begin{itemize}
@@ -58,7 +59,7 @@ Wie auch EEROS hat ROS verschiedene \textit{verbosity levels} um Debug-Informati
 
 Ein weiterer Vorteil bei ROS ist, dass die Ausgaben irgendwo im ROS-Netzwerk, also auch auf einem anderen PC, gelesen und in eine Datei gespeichert werden können.
 Zusätzlich existieren schon ausgereifte Programme, welche die Ausgaben live filtern, farblich hervorheben und ausgeben können.
-\textit{rqt\_console} ist ein solches Programm, dass auch schon standardmässig mit ROS installiert wird.
+\textit{rqt\_console} ist ein solches Programm, das auch schon standardmässig mit ROS installiert wird.
 In Bild \ref{fig:rqtConsole} ist ein Screenshot von \textit{rqt\_console} zu sehen.
 
 \begin{figure}[!ht]
@@ -71,7 +72,7 @@ In Bild \ref{fig:rqtConsole} ist ein Screenshot von \textit{rqt\_console} zu seh
 
 \section{Anzeige von Prozessvariablen}
 \subsection{Beschreibung}
-Prozessvariablen sind, im Gegensatz zu den Log-Ausgaben, einzelne Zahlen oder Datenpunkte wie beispielsweise die Position eines Encoders.
+Prozessvariablen sind, im Gegensatz zu den Log-Ausgaben, einzelne Zahlen oder Datenpunkte, wie beispielsweise die Position eines Encoders.
 Die Variablen können in einem GUI angezeigt werden.
 Im einfachsten Fall zeigt das GUI die Variablen in einer einfachen Konsole an.
 In vielen Fällen ist es aber von Vorteil, wenn eine oder mehrere Variablen in einem Graphen visualisiert werden können.
@@ -79,7 +80,7 @@ In vielen Fällen ist es aber von Vorteil, wenn eine oder mehrere Variablen in e
 \subsection{Zu erwartende Probleme}
 Bei Prozessvariablen gilt es zu beachten, dass sehr schnell eine grosse Menge von Daten anfallen können.
 Dabei ist nicht nur die Bandbreite ein Problem, sondern auch die Latenz.
-Im konkreten Fall bedeutet dies, dass in einem \textit{Control System} bei jedem Durchlauf innerhalb von sehr kurzer Zeit (typischerweise \unit[1]{msec}) neue Daten produziert werden.
+Im konkreten Fall bedeutet dies, dass in einem \textit{Control System} bei jedem Durchlauf innerhalb sehr kurzer Zeit (typischerweise \unit[1]{msec}) neue Daten produziert werden.
 Wenn das ROS-Netzwerk nicht innerhalb einer Millisekunde die Daten wegschicken kann, kann es sein, dass Daten verloren gehen.
 
 Eine Lösung für die zu geringe Latenz des ROS-Netzwerks wäre ein Buffer, der den hochfrequenten Datenstrom abfängt und in längeren Zeitabständen (etwa \unit[0.1]{s} bis \unit[1]{s}) Datenpakete mit den Daten schickt.
@@ -91,7 +92,7 @@ Folgende Techniken könnten das Problem lösen:
 \begin{itemize}
 \item \textbf{Throttle:} Funktioniert wie der Logger mit \textit{Throttle}-Funktionalität. Die meisten Daten werden verworfen und nur jeder x-te Wert wird geschickt.
 \item \textbf{Zeitbegrenzter Buffer:} Ein Buffer speichert über eine begrenzte Zeit die Daten und schickt sie dann mit reduzierter Bandbreite über das Netzwerk.
-\item \textbf{Filter:} Es werden nur Daten gesendet, die eine bestimmte Bedingung erfüllen. Z.B. wenn deren Wert grösser als 10 ist.
+\item \textbf{Filter:} Es werden nur Daten gesendet, die eine bestimmte Bedingung erfüllen, wenn beispielsweise deren Wert grösser als 10 ist.
 \item \textbf{Statistik:} Für eine gewisse Anzahl von Datenpunkten werden statistische Werte, wie z.B. Mittelwert, Minimum und Maximum berechnet. Dem Netzwerk werden nur die berechneten Werte gesendet.
 \end{itemize}
 
@@ -100,9 +101,9 @@ Folgende Techniken könnten das Problem lösen:
 \subsection{Beschreibung}
 \textit{Gazebo} ist eine Simulationssoftware für Roboter.
 Wenn der physikalische Roboter von \textit{Gazebo} simuliert wird, dann kann die EEROS-Applikation getestet werden, ohne dass die Hardware vorhanden sein muss.
-Nachdem die Applikation und die Regelung mit der Simulation getestet und verfeinert wurde, kann sie auf dem Richtigen Roboter getestet werden.
+Nachdem die Applikation und die Regelung mit der Simulation getestet und verfeinert wurden, kann sie auf dem richtigen Roboter getestet werden.
 
-Idealerweise wird wird dafür die HAL von EEROS genutzt.
+Idealerweise wird dafür die HAL von EEROS genutzt.
 So muss nur die Konfigurationsdatei der HAL angepasst werden, wenn von der Simulation zur richtigen Hardware gewechselt wird.
 
 \subsection{Zu erwartende Probleme}
@@ -111,22 +112,22 @@ Wenn es eine komplexere Simulation ist, oder wenn die Simulation visualisiert we
 Die Kommunikation mit ROS ist ebenfalls nicht echtzeitfähig.
 
 Eine Simulation von einem dynamischen System ist aber stark abhängig von der Zeit.
-Es muss also sicher gestellt werden, das die Simulation und auch die EEROS-Applikation mit der richtigen Zeit rechnet, damit auch Regler getestet werden können.
-Zusätzlich muss sicher gestellt werden, dass die Simulation und die Applikation abwechselnd rechnen, um \textit{Race Conditions} zu vermeiden.
+Es muss also sichergestellt werden, dass die Simulation und auch die EEROS-Applikation mit der richtigen Zeit rechnet, damit auch Regler getestet werden können.
+Zusätzlich muss sichergestellt werden, dass die Simulation und die Applikation abwechselnd rechnen, um \textit{Race Conditions} zu vermeiden.
 
 
 \section{Bewertung der verschiedenen Features und Teilziele}
 \subsection{Beschreibung des Punktesystems}
-In Tabelle \ref{Bewertungstabelle} werden alle oben genannten Features werden in Teilziele aufgeteilt und deren Nutzen und Aufwand mit einem Wert zwischen 0 und 10 bewertet.
-Die Punkte für jedes Teilziel werden berechnet, in dem der Nutzen durch den Aufwand dividiert wird.
-Mit dieser Methode sollen diejenigen Teilziele gefunden werden, die mit möglichst kleinem Aufwand einen möglichst grossen Nutzen bringen..
+In Tabelle \ref{Bewertungstabelle} werden alle oben genannten Features in Teilziele aufgeteilt und deren Nutzen und Aufwand mit einem Wert zwischen 0 und 10 bewertet.
+Die Punkte für jedes Teilziel werden berechnet, indem der Nutzen durch den Aufwand dividiert wird.
+Mit dieser Methode sollen diejenigen Teilziele gefunden werden, die mit möglichst kleinem Aufwand einen möglichst grossen Nutzen bringen.
 
 In der Tabelle \ref{BewertungstabelleSortiert} sind alle Teilziele nach dem Punktewert sortiert.
 Nur die \textit{Essential Features} bilden eine Ausnahme, da sie von allen anderen Features benötigt werden.
 Deshalb sind sie an erster Stelle.
 
 Alle Features werden dann der Reihe nach implementiert.
-Sollte im Rahmen dieser Arbeit nicht genügend Zeit vorhanden sein um alle Teilziele zu implementieren, dann werden die Teilziele ganz unten, also die mit dem schlechtesten Nutzen-Aufwand Verhältnis, nicht implementiert.
+Sollte im Rahmen dieser Arbeit nicht genügend Zeit vorhanden sein, um alle Teilziele zu implementieren, dann werden die Teilziele ganz unten, also die mit dem schlechtesten Nutzen-Aufwand-Verhältnis, nicht implementiert.
 
 
 \subsection{Bewertungstabelle}

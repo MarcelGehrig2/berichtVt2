@@ -1,11 +1,11 @@
 \chapter{Einleitung}
-%TODO arbeitsablauf
-
+\label{chapter:einleitung}
 \section{Repositories}
 Für diese Arbeit werden öffentliche Git-Repositories verwendet.
 Alle Repositories werden auf GitHub gehostet.
 
-Das Haupt-Repository enthält alle digitalen Daten dieser Arbeit inklusive aller anderen Sub-Repositories (Submodule).
+Das Haupt-Repository enthält alle digitalen Daten dieser Arbeit inklusive aller anderen Sub-Repositories (Submodule) und gilt in dieser Arbeit als digitaler Anhang.
+Der aktuellste Commit zum Zeitpunkt der Abgabe wird mit dem Tag \textit{FinalRelease} versehen.
 Mit folgendem Befehl können alle Repositories auf einmal geklont werden:
 
 \textit{git clone --recursive -j8 https://github.com/MarcelGehrig2/VT2.git}
@@ -20,28 +20,49 @@ Mit folgendem Befehl können alle Repositories auf einmal geklont werden:
   EEROSTestApp				& https://github.com/MarcelGehrig2/testAppEEROSEVT2.git		& master		 		\\
   SimpleROSNode				& https://github.com/MarcelGehrig2/simpleROSNodeVt2.git		& master				\\
   Bericht					& https://github.com/MarcelGehrig2/berichtVt2.git			& master				\\
+  Bericht von Manuel Ilg	& https://github.com/manuelilg/vt2\_bericht					& master				\\
 \end{tabular}
 %TODO cmake
 
 
+\section{Zusammenarbeit}
+Manuel Ilg hat in seiner Vertiefungsarbeit \textit{\char"22ROS als unterstützendes Werkzeug für EEROS-Applikationen\char"22} aus dem Jahre 2017 eine Regelstrecke in Gazebo simuliert.	%TODO titel
+Er hat nicht nur ein Modell der Regelstrecke in Gazebo erstellt sondern auch bei der Entwicklung der Kommunikation und Synchronisation mit EEROS aktiv mitgeholfen.
+
+
 \section{Aufgabenstellung}
-%TODO
+Das Roboterframework EEROS\footnote{http://eeros.org/wordpress/} ist eine open source Software, die an der NTB entwickelt wurde und immer noch weiterentwickelt wird.
+Es handelt sich dabei um ein Framework, mit dem sich Steuerungen für Roboter realisieren lassen.
+Das echtzeitfähige Kontrollsystem erlaubt Regelungen mit komplexen Kinematiken zu verwirklichen.
+
+ROS\footnote{http://www.ros.org/} ist eine Sammlung von Softwarebibliotheken und Werkzeugen, die die Entwicklung von Roboterprojekten unterstützen.
+ROS hat eine grosse Community, die bereits viele nützliche Tools veröffentlicht hat.
+In ROS wird über sogenannte \textit{Topics} kommuniziert, die einen standardisierten Weg bieten, damit die verschiedenen Tools und Sensoren miteinander kommunizieren können.
+Es ist aber nicht möglich, eine echtzeitfähige Regelung zu implementieren.
+
+Ziel dieser Arbeit ist es, für EEROS eine Anbindung an das ROS Netzwerk zu implementieren.
+Es soll möglich sein, Daten von einem ROS \textit{Topic} zu lesen und im Kontrollsystem zu verwenden.
+Ebenfalls sollen Daten aus dem Kontrollsystem auf einem \textit{Topic} veröffentlicht werden können, damit sie mit bestehenden ROS Tools visualisiert und ausgewertet werden können.
+
+Um eine EEROS Applikation ohne Hardware testen zu können, soll die Hardware mit Gazebo simuliert werden können.
+Mit solchen Simulationen sollen nicht nur Abläufe getestet werden können, sondern auch zeitkritische Regelkreise.
+
 
 \section{Arbeitsablauf}
-Der Arbeitsablauf der in dieser Arbeit eingehalten wurde, ist im Anhang \ref{anhangAblaufSoftwareentwicklung} als Flow Chart dargestellt.
+Der Arbeitsablauf, der in dieser Arbeit eingehalten wurde, ist im Anhang \ref{anhangAblaufSoftwareentwicklung} als Flow Chart dargestellt.
 
 Erst wurden sogenannte \textit{Features} identifiziert.
 \textit{Features} erweitern die Software um eine bestimmte Funktion.
 Im Kapitel \ref{chapter:featureList} werden alle \textit{Features} aufgelistet und nach Signifikanz und Arbeitsaufwand bewertet.
 
 Für jeweils ein \textit{Feature} wurde im Kapitel \ref{chapter:testing} ein Test geschrieben.
-Die Software wurde dann, mit Hilfe des im Anhang \ref{anhangAblaufCodesegement} beschriebenen Arbeitsablauf, um das entsprechende \textit{Feature} erweitert.
+Die Software wurde dann, mit Hilfe des im Anhang \ref{anhangAblaufCodesegement} beschriebenen Arbeitsablaufs, um das entsprechende \textit{Feature} erweitert.
 Wenn der oben beschriebene Test erfolgreich durchlief, wurde, falls sinnvoll, das Feature im englischen Wiki im Kapitel \ref{chapter:wiki} dokumentiert.
 
-In einem Echtzeitsystem wie EEROS ist es essentiell, das der Ablauf nicht blockiert wird.
+In einem Echtzeitsystem wie EEROS ist es essentiell, dass der Ablauf nicht blockiert wird.
 Deshalb wurde der Zeitbedarf von einigen Funktionsaufrufen gemessen und im Kapitel \ref{chapter:performanceTests} dokumentiert.
 
-Natürlich treten bei so einer Arbeit diverse Probleme auf.
+Natürlich treten bei einer solchen Arbeit diverse Probleme auf.
 Einige dieser Probleme, besonders solche die möglicherweise in Zukunft wieder auftreten können, wurden im Kapitel \ref{chapter:problembehebung} dokumentiert.
 
-
+Im Kapitel \ref{chapter:ros} sind kurz die wichtigsten Informationen über ROS zusammengefasst.

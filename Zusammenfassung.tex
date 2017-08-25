@@ -2,24 +2,23 @@
 \chapter*{Kurzfassung}
 In dieser Arbeit wird vorgestellt, wie eine EEROS Applikation in einem ROS Netzwerk eingebunden werden kann und wie bestehende ROS Werkzeuge genutzt werden können, um EEROS Applikationen zu erweitern.
 
-EEROS ist ein Roboter-Framework, dass an der NTB entwickelt wird.
-Es konzentriert sich aber im Gegensatz zu ROS nicht darauf, mehrere Komponenten von einem Roboter-System in einem Netzerk zu verbinden.
-Die grosse Stärke von EEROS ist die Echtzeitfähigkeit.
+EEROS ist ein Roboter-Framework, das an der NTB entwickelt wird.
+Es konzentriert sich aber im Gegensatz zu ROS nicht darauf, mehrere Komponenten von einem Roboter-System in einem Netzwerk zu verbinden sondern die grosse Stärke von EEROS ist die Echtzeitfähigkeit.
 In EEROS können komplexe Kinematiken abgebildet und in Echtzeit geregelt werden.
 Da ROS nicht echtzeitfähig ist, können Regler in ROS nicht gerechnet werden.
 EEROS schliesst diese Lücke.
 
 ROS, oder Robot Operating System, ist ein Set von Softwarebibliotheken und Werkzeugen um Roboteranwendungen zu schreiben.
 Ein ROS Netzwerk besteht aus diversen Knoten.
-Jeder Knoten kann ein Sensor, ein Aktor, ein Datenverarbeitungsknoten oder eine Simulation (Gazebo) darstellen.
+Jeder Knoten kann einen Sensor, einen Aktor, einen Datenverarbeitungsknoten oder eine Simulation (Gazebo) darstellen.
 Es besteht aus dem Kern und mehreren Packages, die das Framework erweitern können.
-Die Packages sind oft frei erhältlich und erlauben es, diverse Hardware mit einem standardisiertem Protokoll ansprechen zu können.
+Die Packages sind oft frei erhältlich und erlauben es, diverse Hardware mit einem standardisierten Protokoll ansprechen zu können.
 Eine grosse Community entwickelt nicht nur den Kern von ROS immer weiter, sondern veröffentlicht auch immer neue Packages um die Funktionalität von ROS zu erweitern.
 
 In dieser Arbeit wird EEROS erweitert, damit zukünftige EEROS Applikationen mühelos in ein ROS Netzwerk eingebunden werden können.
 Dabei wurde speziell darauf geachtet, dass EEROS Applikationen auch mit Gazebo Simulationen verbunden werden können, um die Applikation oder Regelung testen zu können.
-Mit den in dieser Arbeit entwickelten Erweiterungen können EEROS Applikationen zukünftig Daten von ROS-Knoten lesen, Daten an ROS-Knoten schicken und mit einer Gazbeo Simulation können EEROS Applikationen getestet werden, ohne dass die Hardware des Roboters vorhanden sein muss.
-Zusätzlich kann das ROS Netzwerk und ROS Werkzeuge neu auch genutzt werden, um lückenlos Daten von EEROS Signalen aufzeichnen und visualisieren zu können.
+Mit den, in dieser Arbeit entwickelten Erweiterungen können EEROS Applikationen zukünftig Daten von ROS-Knoten lesen, Daten an ROS-Knoten schicken und mit einer Gazbeo Simulation können EEROS Applikationen getestet werden, ohne dass die Hardware des Roboters vorhanden sein muss.
+Zusätzlich kann das ROS Netzwerk und ROS Werkzeuge neu auch genutzt werden, um lückenlos Daten von EEROS Signalen aufzuzeichnen und zu visualisieren.
 
 
 

@@ -7,15 +7,15 @@ Da das EEROS-Wiki in englischer Sprache geschrieben ist, sind auch die folgenden
 
 \section{Using ROS with EEROS}	%TODO referenz auf repos? ros-eeros
 There are three different use cases for using ROS with EEROS.
-The easiest way is to use ROS only as a debugging tool like it is described in chapter \ref{rosAsDebuggingTool}.
+The easiest way is to use ROS only as a debugging tool like as described in chapter \ref{rosAsDebuggingTool}.
 
 If you want to subscribe to a node or publish to a ROS node, the implementation is a bit more sophisticated.
-You can either add a ROS block to the control system, like it is described in chapter \ref{rosBlocks}, or you can use the EEROS HAL.
+You can either add a ROS block to the control system, like as described in chapter \ref{rosBlocks}, or you can use the EEROS HAL.
 With the HAL you can easily switch between publishing an output value to a ROS node and writing an output value directly to hardware.
 To use the HAL you may have to adapt the wrapper library \textit{ros-eeros}.
 Chapter \ref{rosHal} describes in detail, how you can adapt the wrapper library.
 
-Independent of which way you plan to use ROS-EEROS you first have to do some preparations.
+Independent in which way you plan to use ROS-EEROS you first have to do some preparations.
 Chapter \ref{preparations} describes all needed steps to prepare your system.
 
 You can find an example application in the eeros source code.
@@ -131,8 +131,8 @@ eeros::System::getTimeNs();
 \end{lstlisting}
 
 If you want, you also can use the ROS clock. 
-This can be usefull, if you are simulating with Gazebo.
-To switch to ROS time, call
+This can be useful, if you are simulating with Gazebo.
+To switch to ROS time, call:
 \lstset{language=c}
 \begin{lstlisting}
 eeros::System::useRosTime();
@@ -145,7 +145,7 @@ An EEROS application needs to be started with super user privileges.
 ROS needs some system variables, like \textit{ROS\_MASTER\_URI}, which are defined by the \textit{setup.bash} script of ROS.
 To forward these variables to the super user process, the option \textit{-E} has to be used. Here an example:
 \begin{snugshade*}
-	\$ sudo -E ./applikation
+	\$ sudo -E ./application
 \end{snugshade*}
 
 
@@ -154,19 +154,19 @@ To forward these variables to the super user process, the option \textit{-E} has
 \subsection{Introduction}
 The \textit{RosBlockPublisher.hpp} is an easy way to monitor signals in the EEROS control system.
 It can publish the value and the timestamp of a simple signal every iteration of the control system.
-Period times of \unit[1]{msec} are no problems.
-Althought it publishes every iteration with the right order, the published messages arrive not in real-time!
+Period times of \unit[1]{msec} are no problem.
+Althought it publishes every iteration in the right order, the published messages arrive not in real-time!
 
 You can view and store the published messages with ROS tools like \textit{multiplot}\footnote{http://wiki.ros.org/rqt\_multiplot}.
 
 Install \textit{multiplot}:
 \begin{snugshade*}
-	sudo apt-get install ros-kinetic-rqt
+	sudo apt-get install ros-kinetic-multiplot
 \end{snugshade*}
 
 To run \textit{multiplot} open \textit{rqt} and add the plugin \textit{Plugins/Visualization/Multiplot}.
 
-\subsection{Implementation}
+\subsection{How to use}
 Add the header file of your control system:
 \lstset{language=c}
 \begin{lstlisting}
@@ -180,7 +180,7 @@ This block accepts only EEROS signals with the type ''\textit{double}''.
 	RosBlockPublisherDouble		debugOut0;
 \end{lstlisting}
 
-Call the constructor of the block with the topic name, which it should publish to.
+Call the constructor of the block with the topic name, which it should be publish to.
 \lstset{language=c}
 \begin{lstlisting}
 class MyControlSystem {
@@ -209,7 +209,7 @@ The \textit{RosBlockPublisherDouble} block can only publish EEROS signals with a
 The block publishes a ROS message of type \textit{sensor\_msgs/FluidPressure.h}.
 This rather strange message type was chosen, because it contains a member of type \textit{double} and a header with timestamp and not much unused overhead.
 
-A custom message type with only a header, a member of type \textit{doble} and an appropriate name could be createt with catkin.
+A custom message type with only a header, a member of type \textit{double} and an appropriate name could be createt with catkin.
 But this could lead to compatibility issues with third party applications like \textit{rqt}.
 
 
@@ -223,9 +223,9 @@ If you build your own ROS block, you can define the type of the EEROS signal and
 A publisher block takes one or multiple EEROS signals and publishes the data to a ROS node.
 A subscribe subscribes to a ROS node and creates an EEROS signal.
 
-\subsection{Implementation}
-This section describes how you can use the \textit{RosBlockPublisher\_SensorMsgs\_LaserScan} block, which is included with the \textit{eeros-framework}.
-You can build your own ROS block like it is described in section \ref{createRosBlock}.
+\subsection{How to use}
+This section describes how you can use the \textit{RosBlockPublisher\_SensorMsgs\_LaserScan} block, which is included in the \textit{eeros-framework}.
+You can build your own ROS block as it is described in section \ref{createRosBlock}.
 
 Add the header file to your control system:
 \lstset{language=c}
@@ -248,7 +248,9 @@ This particular example creates EEROS matrices with the dimensions 5x1.
 	RosBlockSubscriber_SensorMsgs_LaserScan<TRangesOutput, TIntensitiesOutput>	laserScanIn;
 \end{lstlisting}
 
-Call the constructor of the block with the ROS node handler, the topic name and the queue size and if only the newest messages should be called.
+Call the constructor of the block with the ROS node handler, the topic name and the queue size.
+If you use a \textit{subscribe} block, you can add a \textit{true}, if you allways want to get the newest message on the topic.
+You can also add a \textit{false}, if you want to get the oldest, not yet received (in EEROS) message.
 The queue size is the size of the ROS buffer.
 If you choose to all the newest messages, only the newest message of each subscriber will be converted to an EEROS message and older messages can be discarded.
 \lstset{language=c}
@@ -322,7 +324,7 @@ Identical procedure to \ref{creatingANewBlock} ''Creating a new Block'';
 \begin{enumerate}[\hspace{0.5cm}{C}-1]
 \item Create the template definition. Each EEROS matrix input needs its own type.
 \item Create a 'value' and an 'output' variable for each EEROS matrix output.
-\item Add a 'getInput()' function for each EEROS matrix Input.
+\item Add a 'getInput()' function for each EEROS matrix input.
 \item Check if EEROS input is connected.
 \item Get the vector from the EEROS input.
 \item Cast the vector and assign it to the appropriate ROS data field.
@@ -341,7 +343,7 @@ If you adapt the *.json file correctly, your application should now run on hardw
 
 It is also possible to use ROS-topics alongside real hardware.
 You can use \textit{comedi-eeros} to read an encoder and set a control value for a motor.
-At the same time, you can publish the same values to ROS topics to monitor them with \textit{Gazebo} (if you have a model of your robot) or you can monitor the values with a ROS tool like ''\textit{rqt}'' and display them in a graph with \textit{Multiplot} or as numbers with \textit{TopicMonitor}.
+At the same time, you can publish the same values to ROS topics to visualize the state of the robot with \textit{rviz} (if you have a model of your robot) or you can monitor the values with a ROS tool like ''\textit{rqt}'' and display them in a graph with \textit{Multiplot} or as numbers with \textit{TopicMonitor}.
 With \textit{Multiplot} you can also store the values in a text file.
 
 There are hundreds of different message types in ROS and it is possible to create custom types.
@@ -435,7 +437,7 @@ DigOut    & sensor\_msgs::BatteryState & present          \\ \cline{2-3}
 You can find a complete example, including a *.json file, in the eeros framework (/examples/hal/Ros*).
 
 
-\subsection{Implementation}
+\subsection{How to use}
 Refere to the documentation of the EEROS HAL\footnote{http://wiki.eeros.org/eeros\_architecture/hal/start?s[]=hal} and check the example in the eeros framework (/examples/ros).
 
 First initialize the HAL in your main function:
@@ -482,7 +484,7 @@ public:
 \end{lstlisting}
 
 
-\subsection{Add new ROS message type to the HAL}
+\subsection{Add a new ROS message type to the HAL}
 \label{sectionImplementMsgType}
 \textbf{Preparations}
 
@@ -492,7 +494,7 @@ After you have implemented and tested your additions, don't hesitate to push you
 
 \textbf{Add an input}
 
-In this example describes how to add a new ROS message type to \textit{AnalogIn}.
+This example describes how to add a new ROS message type to \textit{AnalogIn}.
 The procedure to create a new msg type and data field for a \textit{DigIn} is similar.
 
 \textbf{\textit{AnalogIn.hpp:}}
@@ -537,7 +539,7 @@ void sensorMsgsLaserScanAngleMin
 
 \textbf{Add an output}
 
-In this example describes how to add a new ROS message type to \textit{AnalogOut}.
+This example describes how to add a new ROS message type to \textit{AnalogOut}.
 The procedure to create a new msg type and data field for a \textit{DigOut} is similar.
 
 \textbf{\textit{AnalogOut.hpp:}}
@@ -591,3 +593,55 @@ void AnalogOut::sensorMsgsLaserScanAngleMin(const double value, const uint64_t t
 \section{EEROS with Gazebo simulation}
 \label{EerosWithGazebo}
 \subsection{Introduction}
+It is possible to test your EEROS application with a \textit{gazebo} simulation.
+This can be an advantage, if you don't have access to the robot (i.e. the EEDURO delta robot) or if the robot could be destroyed, if the EEROS application does not work correctly.
+
+The simulation does not have to be in real time.
+Even if the simulation does not run at real time speed, the timestamps are set correctly with the simulation time of gazebo.
+This enables you to check every possible signal of your control loop and the simulated system step by step.
+
+The paper of Manuel Ilg\footnote{\char"22ROS als unterstützendes Werkzeug für EEROS-Applikationen\char"22} describes how to build such a simulated system.
+
+\subsection{Requirements for the simulated system}
+The simulated system has to publish every signal, which normally would be measured with a sensor, to a top.
+For every actuator, the simulation needs to get the control value from a topic.
+The simulation also needs to ensure to ensure that a new simulation step is started only if every input topic has received a new message from the EEROS application.
+This ensures an accurate synchronisation.
+
+\subsection{How to use}
+The most difficult part is the correct synchronisation between the EEROS application and the simulation.
+You need to synchronise the executor of EEROS with the gazebo simulation.
+To synchronize the executor follow the steps below.
+
+\begin{enumerate}
+\item Add a dummy callback function before the main() function.
+\lstset{language=c}
+\begin{lstlisting}
+void callback(const sensor_msgs::JointState::Type) {};
+\end{lstlisting}
+\item Create a new ROS node handler, a new callback queue and advertise to a topic published from the gazebo simulation.
+\lstset{language=c}
+\begin{lstlisting}
+ros::NodeHandle syncNodeHandler;
+ros::CallbackQueue syncCallbackQueue;
+syncNodeHandler.setCallbackQueue(&syncCallbackQueue);
+auto subscriberSync = syncNodeHandler.subscribe("motor_sim/joint_states", 1, &callback);
+\end{lstlisting}
+\item Sync the executor to the topic
+\lstset{language=c}
+\begin{lstlisting}
+executor.syncWithRosTopic(&syncCallbackQueue);
+\end{lstlisting}
+\end{enumerate}
+
+It is also very important to set the time stamps of the output signal according to the simulation time.
+This is quite simple.
+Call:
+\lstset{language=c}
+\begin{lstlisting}
+eeros::System::useRosTime();
+\end{lstlisting}
+anywhere before you run the executor.
+If you use this function, EEROS will always use the ROS time to set the time stamps.
+While you are running a gazebo simulation, the ROS time is equal to the simulation time.
+If you don't have gazebo running, the wall clock of your computer will be used.

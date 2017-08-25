@@ -1,11 +1,9 @@
-%TODO a lot
-
 \chapter{Testing}
 \label{chapter:testing}
 \section{Einleitung}
 In diesem Kapitel wird für jedes Teilziel zuerst ein Testprozedere beschrieben.
-Das Teilziel wird dann implementiert und in den Kapitel \ref{chapter:wiki} dokumentiert. %TODO in welchen Kapitel?? %TODO
-Das fertig implementierte \textit{Feature} wird dann mit dem anfangs aufgeschriebenen Testprozedere getestet und evt. korrigiert.
+Das Teilziel wird dann implementiert und in Kapitel \ref{chapter:wiki} dokumentiert.
+Das fertig implementierte \textit{Feature} wird dann mit dem anfangs aufgeschriebenen Testprozedere getestet und gegebenenfalls korrigiert.
 
 
 \section{Tests für ''Essential Features''}
@@ -90,7 +88,7 @@ Eine Klasse in EEROS erstellen, die ROS verwendet und den EEROS Quellcode umschr
 
 
 
-\section{Daten empfangen}
+\section{Daten senden und Empfangen}
 \subsection{Einfacher ROS-Knoten}
 \subsubsection{Zu erfüllende Testbedingungen}
 In EEROS einen Block für das \textit{Control System} erstellen, welcher das \textit{Topic} vom \textit{turtle\_teleop\_key} einlesen kann.
@@ -113,13 +111,13 @@ In EEROS einen Block für das \textit{Control System} erstellen, welcher das \te
 \item Den ROS Core mit \textit{\$ roscore} starten.
 \item Testapplikation ''\textit{EEROSTestApp\_t3.0}'' in einem neuen Terminal starten.
 \item Den \textit{Turtlesim} Knoten mit \textit{\$ rosrun turtlesim turtle\_teleop\_key} starten.
-\item Für die vier Pfeiltaste muss beim Terminal von der Testapplikation eine entsprechende Ausgabe erscheinen. \\
+\item Für die vier Pfeiltasten muss beim Terminal von der Testapplikation eine entsprechende Ausgabe erscheinen. \\
 \textbf{Ergebnis:} \cmark
 \item Beide Applikationen beenden.
 \item Den \textit{Turtlesim} Knoten mit \textit{\$ rosrun turtlesim turtle\_teleop\_key} starten.
 \item Testapplikation ''\textit{EEROSTestApp\_t3.0}'' in einem neuen Terminal starten.
 \item Das Teminal mit dem \textit{Turtlesim} Knoten anwählen.
-\item Für die vier Pfeiltaste muss beim Terminal von der Testapplikation eine entsprechende Ausgabe erscheinen. \\
+\item Für die vier Pfeiltasten muss beim Terminal von der Testapplikation eine entsprechende Ausgabe erscheinen. \\
 \textbf{Ergebnis:} \cmark
 \item Den \textit{Turtlesim} Knoten beenden.
 \item Den \textit{Turtlesim} Knoten mit \textit{\$ rosrun turtlesim turtle\_teleop\_key} neu starten.
@@ -166,8 +164,40 @@ Eine EEROS-Testapplikation soll alle \textit{Messages} ausgeben, welche auf den 
 \end{enumerate}
 
 
+\section{Simulation der Regelstrecke mit Gazebo}
+\textbf{Repositories:} \\
+\begin{tabular}
+  { l						| l			 							l								 l								}
 
+% Name						Repo   									Branch Aufwand     				Tag
+  EEROS\_t4.0				& \textit{Repository}: EEROS			& \textit{Branch}: master		& \textit{Hash}: 93865e5		\\
+  ros-eeros\_t4.0			& \textit{Repository}: ros-eeros		& \textit{Branch}: master		& \textit{Hash}: 15769ad		\\
+  EEROSTestApp\_t4.0		& \textit{Repository}: EEROSTestApp		& \textit{Branch}: master		& \textit{Hash}: 0b4f484		\\
+\end{tabular}
 
+\subsection{Einleitung}
+Die Simulation der Regelstrecke wurde von Manuel Ilg entwickelt.
+Die Regelstrecke beruht ist ein einfacher Motor mit einem Schwungrad.
+In einem alten Projekt \textit{\char"22Projektarbeit Mechatronik 2: Regelung eines DC-Motors\char"22} hatte er bereits einen Geschwindigkeitsregler für diese Strecke mit Simulink simuliert.
+Die Auslegung und Sprungantwort des Reglers ist im Anhang \ref{anhang:mechatronik2} angehängt.
+Der komplette Bericht ist im digitalen Anhang.
+
+\subsection{Zu erfüllende Testbedingungen}
+In EEROS soll der Geschwindigkeitsregler nachgebaut werden.
+Sobald die Gazebo Simulation die gleiche Sprungantwort liefert wie Simulink Simulation gilt der Test als erfüllt.
+
+\subsection{Ergebnis}
+Im EEROSTestApp konnte der Geschwindigkeitsregler erfolgreich implementiert werden.
+Auch die zeitkritische Regelung funktioniert in der Simulation.
+In Abbildung \ref{fig:motorsim} ist die Sprungantwort der Simulation dargestellt mit dem ROS Tool \textit{multiplot}.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[angle=0,width=\textwidth]{images/motorsim_v_control_cut.png}
+%\includegraphics[angle=0,width=\textwidth]{images/screenshotRqtConsole.png}
+\caption{Sprungantwort der Simulation mit Gazebo}
+\label{fig:motorsim}
+\end{figure}
 
 
 %\textbf{Repositories:} \\
